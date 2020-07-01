@@ -15,6 +15,7 @@ Etant donné que FuncraftHelper est en développement assez précoce, il va fall
 4. Modifiez le fichier config.js !! Vous devez indiquer a FuncraftHelper votre pseudo Funcraft et l'emplacement de votre .pactify ou .minecraft, puis changer vos paramètres selon vos préférences. Tout est expliqué dedans !
 5. Ensuite faites "node ./FuncraftHelper.js" et le tour est joué ! Vous pouvez aussi créer un fichier bat/batch pour linux avec la commande pour ne pas avoir à ouvrir un Terminal/PowerShell à chaque fois !
 
-# Timeout, textContent undefined ?
+# Problèmes communs
+### Timeout, textContent undefined ?
 Si vous rencontrez des problèmes de type timeout ou textContent undefined, le problème vient des XPath du site de Funcraft qui changent après un certain temps. Pour l'instant je ne peux pas utiliser d'autres moyens de recherche de texte que des XPath.
 Je ferais des correctifs le plus rapidement possible mais si vous voulez vraiment utiliser FuncraftHelper, vous pouvez : ouvrir Chrome/Chromium (ne fonctionne pas avec d'autres navigateurs, même ceux basés sur Chromium tels que Edge ou Opera !) et naviguer sur la page de stats d'un joueur. Inspecter l'élément et copier les XPath que vous devez remplacer.
