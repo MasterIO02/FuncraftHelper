@@ -12,13 +12,13 @@ Sur un i5-6500 et un i7-4500u les performances étaient bonnes et l'utilisation 
 Pendant la recherche de statistiques, le processeur peut monter à 100%, c'est tout à fait normal. Mettre FuncraftHelper sur un SSD est FORTEMENT conseillé pour avoir les stats avant que la partie ne commence !
 
 # Installation
-L'installation ne se fait pas comme n'importe quel logiciel ou il faut double cliquer, et cliquer sur suivant jusqu'à ce que l'installation commence...
+L'installation ne se fait pas comme n'importe quel logiciel ou il faut cliquer sur suivant jusqu'à ce que l'installation commence...
 Etant donné que FuncraftHelper est en développement assez précoce, il va falloir mettre la main à la pâte.
 1. Installez node.js, depuis leur site : https://nodejs.org. Pendant l'installation, sous Windows, cochez bien "Add to PATH" à la fin de l'installation et redémarrez votre ordinateur !
 2. Téléchargez les fichiers source de FuncraftHelper de ce repository et mettez les dans n'importe quel dossier sur votre ordinateur.
 3. Ouvrez un Terminal/PowerShell dans ce dossier puis tapez : npm install puppeteer, et ensuite npm install readline.
 4. Modifiez le fichier config.js !! Vous devez indiquer a FuncraftHelper votre pseudo Funcraft et l'emplacement de votre .pactify ou .minecraft, puis changer vos paramètres selon vos préférences. Tout est expliqué dedans !
-5. Ensuite faites "node ./FuncraftHelper.js" et le tour est joué ! Vous pouvez aussi créer un fichier bat/batch pour linux avec la commande pour ne pas avoir à ouvrir un Terminal/PowerShell à chaque fois !
+5. Ensuite faites "node ./FuncraftHelper.js" et le tour est joué ! Vous pouvez aussi créer un fichier bat pour Windows ou batch pour Linux/Mac avec la commande pour ne pas avoir à ouvrir un Terminal/PowerShell à chaque fois !
 
 # Problèmes communs
 ### Timeout, textContent undefined ?
