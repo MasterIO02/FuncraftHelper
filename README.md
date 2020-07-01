@@ -1,4 +1,8 @@
 # FuncraftHelper
+[![HitCount](http://hits.dwyl.com/MasterIO02/FuncraftHelper.svg)](http://hits.dwyl.com/MasterIO02/FuncraftHelper)
+[![GitHub All Releases](https://img.shields.io/github/downloads/MasterIO02/FuncraftHelper/total.svg)](https://github.com/MasterIO02/FuncraftHelper/releases/)
+[![forthebadge](https://forthebadge.com/images/badges/compatibility-club-penguin.svg)](https://forthebadge.com)
+
 FuncraftHelper est un programme permettant de voir les statistiques des joueurs contre qui vous jouez sur Funcraft en temps réel et automatiquement.
 Fonctionne avec tous les launchers Minecraft, dont le Pactify. **Aucune modifications du client du jeu n'est effectué !**
 N'hésitez pas à envoyer vos retours de bugs, suggestions ou autres dans la section "issues" dans GitHub !
