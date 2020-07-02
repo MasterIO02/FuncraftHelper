@@ -7,7 +7,7 @@ var lastLogLine = ""
 
 exports.checkGamemode = async () => {
     config.gameChosen = ""
-    console.log("Attente du choix de mode de jeu")
+    if(config.secondPlayerNotFound == false) { console.log("Attente du choix de mode de jeu") }
     let waitPrimaryLoop = setInterval(function(){ primaryLoop() }, 5);
     async function primaryLoop() {
         getLastLine(logFileLocation, 2)
