@@ -16,19 +16,38 @@ exports.navigatePlayerOne = async () => {
             await page.keyboard.press('Enter')
     
     
-            await page.waitForXPath("/html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/div[2]/div/div[2]/div[4]/div[2]");
-            let element = await page.$x("/html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/div[2]/div/div[2]/div[4]/div[2]");
+            if(config.gameChosen == "Hika1v1") {
+              await page.waitForXPath(config.hikabrainGamesCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
+              var element = await page.$x(config.hikabrainGamesCountXPath)
+            } else if(config.gameChosen == "RushFast1v1") {
+              await page.waitForXPath(config.rushGamesCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
+              var element = await page.$x(config.rushGamesCountXPath)
+            }
+
             let gamesCount = await page.evaluate(el => el.textContent, element[0])         
             gamesCount = gamesCount.split(' ').join('');
     
-            await page.waitForXPath("/html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/div[2]/div/div[2]/div[5]/div[2]")
-            element = await page.$x("/html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/div[2]/div/div[2]/div[5]/div[2]");
+            if(config.gameChosen == "Hika1v1") {
+              await page.waitForXPath(config.hikabrainVictoryCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
+              element = await page.$x(config.hikabrainVictoryCountXPath)
+            } else if(config.gameChosen == "RushFast1v1") {
+               await page.waitForXPath(config.rushVictoryCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
+               element = await page.$x(config.rushVictoryCountXPath)
+            }
+
             let victoryCount = await page.evaluate(el => el.textContent, element[0])
             victoryCount = victoryCount.split(' ').join('');
     
             var hikaWinrate = (victoryCount / gamesCount * 100)
             var roundedHikaWinrate = hikaWinrate.toFixed(2);
-            console.log("Votre Winrate est de " + roundedHikaWinrate + "%, en " + gamesCount + " parties.")
+
+
+            if(config.gameChosen == "Hika1v1") {
+              console.log("Votre Winrate en Hikabrain est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
+            } else if(config.gameChosen == "RushFast1v1") {
+              console.log("Votre Winrate en Rush est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
+            }
+
             browser.close()
     
         } catch(e) {
