@@ -6,7 +6,6 @@ const recheckGamemode = require('./recheckGamemode.js').recheckGamemode
 var lastLogLine = ""
 
 exports.checkGamemode = async () => {
-    config.gameChosen = ""
     if(config.secondPlayerNotFound == false) { console.log("Attente du choix de mode de jeu") }
     let waitPrimaryLoop = setInterval(function(){ primaryLoop() }, 5);
     async function primaryLoop() {
@@ -24,14 +23,14 @@ exports.checkGamemode = async () => {
             recheckGamemode()
 
         } else if(lastLogLine.includes("hikabrain10#2x1") && config.findUnameCalled == false) {
-            config.gameChosen = 'Hika1v1'
+            config.gameChosen = "Hika1v1"
             config.exited = false
             callFindUname()
             console.log("Hikabrain 1v1 choisi")
             config.findUnameCalled = true
             stopPrimaryLoop()
         } else if(lastLogLine.includes("rushFASTMDTPAC10#2x1") && config.findUnameCalled == false) {
-          config.gameChosen = 'RushFast1v1'
+          config.gameChosen = "RushFast1v1"
           config.exited = false
           callFindUname()
           console.log("Rush Fast MDT 1v1 choisi")
