@@ -52,25 +52,25 @@ exports.navigatePlayerTwo = async () => {
             if(config.showPercent == true) {console.log("60%")}
 
             if(config.gameChosen == "Hika1v1") {
-                await page.waitForXPath(config.hikabrainGamesCountXPath)
+                await page.waitForXPath(config.hikabrainGamesCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
                 var element = await page.$x(config.hikabrainGamesCountXPath)
             } else if(config.gameChosen == "RushFast1v1") {
-                await page.waitForXPath(config.rushGamesCountXPath)
+                await page.waitForXPath(config.rushGamesCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
                 var element = await page.$x(config.rushGamesCountXPath)
             }
-            let gamesCount = await page.evaluate(el => el.textContent, element[0])         
-            gamesCount = gamesCount.split(' ').join('');
+            let gamesCount = await page.evaluate(el => el.textContent, element[0])
+            gamesCount = gamesCount.split(' ').join('')
             if(config.showPercent == true) {console.log("80%")}
 
             if(config.gameChosen == "Hika1v1") {
-                await page.waitForXPath(config.hikabrainVictoryCountXPath)
+                await page.waitForXPath(config.hikabrainVictoryCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
                 element = await page.$x(config.hikabrainVictoryCountXPath)
             } else if(config.gameChosen == "RushFast1v1") {
-                await page.waitForXPath(config.rushVictoryCountXPath)
+                await page.waitForXPath(config.rushVictoryCountXPath).catch(() => console.log("Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec Chrome s'est produit."))
                 element = await page.$x(config.rushVictoryCountXPath)
             }
             let victoryCount = await page.evaluate(el => el.textContent, element[0])
-            victoryCount = victoryCount.split(' ').join('');
+            victoryCount = victoryCount.split(' ').join('')
             if(config.showPercent == true) {console.log("100%")}
             
             var Winrate = (victoryCount / gamesCount * 100)
