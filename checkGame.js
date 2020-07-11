@@ -54,6 +54,7 @@ exports.checkGamemode = async () => {
 
 const navigatePlayerOne = require('./navigatePlayerOne').navigatePlayerOne
 const navigatePlayerTwo = require('./navigatePlayerTwo').navigatePlayerTwo
+const navigateMorgothAPI = require('./navigateMorgothAPI.js').navigateMorgothAPI
 
 exports.findUname = async () => {
   if(config.checkOwnStats == true) {
@@ -83,7 +84,12 @@ exports.findUname = async () => {
             config.secondPlayerUname = secondPlayerName
             config.secondPlayerSaid = true
             config.findUnameCalled = false
-            navigatePlayerTwo();
+            if(config.useMorgothAPI == false) {
+              navigatePlayerTwo()
+            } else {
+              navigateMorgothAPI()
+            }
+            
             stopFindUname();
         }
         if(config.exited == true) {
