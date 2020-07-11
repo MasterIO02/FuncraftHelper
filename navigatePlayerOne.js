@@ -38,15 +38,16 @@ exports.navigatePlayerOne = async () => {
             let victoryCount = await page.evaluate(el => el.textContent, element[0])
             victoryCount = victoryCount.split(' ').join('');
     
-            var hikaWinrate = (victoryCount / gamesCount * 100)
-            var roundedHikaWinrate = hikaWinrate.toFixed(2);
+            var winrate = (victoryCount / gamesCount * 100)
+            var roundedWinrate = winrate.hikaWinrate.toFixed(2);
 
-
-            if(config.gameChosen == "Hika1v1") {
-              console.log("Votre Winrate en Hikabrain est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
-            } else if(config.gameChosen == "RushFast1v1") {
-              console.log("Votre Winrate en Rush est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
+            let gameSelected = ''
+            if(config.gameChosen == 'Hika1v1') {
+                gameSelected = 'Hikabrain'
+            } else if(config.gameChosen == 'RushFast1v1') {
+                gameSelected = 'Rush'
             }
+            console.log("Le Winrate en " + gameSelected + " de " + config.secondPlayerUname + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
 
             browser.close()
     

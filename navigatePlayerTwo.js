@@ -38,7 +38,6 @@ exports.navigatePlayerTwo = async () => {
         clearInterval(waitForGameStartStop);
     }
 
-
             if(config.showPercent == true) {console.log("0%")}
             const browser = await puppeteer.launch({ headless: config.headless });
             const page = await browser.newPage();
@@ -76,13 +75,16 @@ exports.navigatePlayerTwo = async () => {
             var Winrate = (victoryCount / gamesCount * 100)
             var roundedWinrate = Winrate.toFixed(2);
 
-            if(config.gameChosen == "Hika1v1") {
-                console.log("Le Winrate en Hikabrain de " + config.secondPlayerUname + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
-            } else if(config.gameChosen == "RushFast1v1") {
-                console.log("Le Winrate en Rush de " + config.secondPlayerUname + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
 
+            let gameSelected = ''
+            if(config.gameChosen == 'Hika1v1') {
+                gameSelected = 'Hikabrain'
+            } else if(config.gameChosen == 'RushFast1v1') {
+                gameSelected = 'Rush'
             }
+            console.log("Le Winrate en " + gameSelected + " de " + config.secondPlayerUname + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.")
             
+
             if(gamesCount == "-") {
                 console.log("Ce joueur est TRES PROBABLEMENT EN /nick !!! Faites attention !")
             }
