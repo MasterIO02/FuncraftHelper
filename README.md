@@ -12,7 +12,9 @@ Windows et Linux sont supportés, je ne peux cependant pas tester sur Mac mais �
 # Vitesse et performances
 FuncraftHelper est fait pour fonctionner rapidement, toutefois, suivant les performances de votre ordinateur, FuncraftHelper peut être assez lent. Des optimisations seront réalisées dans la mesure du possible pour affecter le moins possible les performances.
 Il est NORMAL que tous les joueurs ne soient pas détectés. Le plus gros problème est d'arriver dans un lobby avec un joueur déjà dedans, malheureusement pour l'instant il ne peut pas être détecté et ce n'est PAS UN BUG ! Si vous voulez vraiment voir les stats de votre adversaire avant de commencer la partie, vous pouvez toujours quitter la game et en relancer une.
-Sur un i5-6500 et un i7-4500u les performances étaient bonnes et l'utilisation CPU de FuncraftHelper ne dépassait pas les 10-15% en attente d'un mode de jeu. 
+En utilisant l'API de LordMorgoth (https://lordmorgoth.net), les performances de votre machine ainsi que la vitesse de recherche des statistiques seront grandement améliorées. Cependant, cette API est limitée à 1 requête toutes les 10 secondes, donc inutilisable dans des parties non 1vs1.
+
+En utilisant la navigation intégrée de FuncraftHelper, les performances étaient bonnes sur un i5-6500 et un i7-4500u et l'utilisation CPU de FuncraftHelper ne dépassait pas les 10-15% en attente d'un mode de jeu. 
 Pendant la recherche de statistiques, le processeur peut monter à 100%, c'est tout à fait normal. Mettre FuncraftHelper sur un SSD est FORTEMENT conseillé pour avoir les stats avant que la partie ne commence !
 
 # Installation
@@ -20,7 +22,7 @@ L'installation ne se fait pas comme n'importe quel logiciel ou il faut cliquer s
 Etant donné que FuncraftHelper est en développement assez précoce, il va falloir mettre la main à la pâte.
 1. Installez node.js, depuis leur site : https://nodejs.org. Pendant l'installation, sous Windows, cochez bien "Add to PATH" à la fin de l'installation et redémarrez votre ordinateur !
 2. Téléchargez les fichiers source de FuncraftHelper de ce repository et mettez les dans n'importe quel dossier sur votre ordinateur.
-3. Ouvrez un Terminal/PowerShell dans ce dossier puis tapez : npm install puppeteer, et ensuite npm install readline.
+3. Ouvrez un Terminal/PowerShell dans ce dossier puis tapez : npm install puppeteer, npm install readline, et enfin npm install node-fetch.
 4. Modifiez le fichier config.js !! Vous devez indiquer a FuncraftHelper votre pseudo Funcraft et l'emplacement de votre .pactify ou .minecraft, puis changer vos paramètres selon vos préférences. Tout est expliqué dedans !
 5. Ensuite faites "node ./FuncraftHelper.js" et le tour est joué ! Vous pouvez aussi créer un fichier bat pour Windows ou batch pour Linux/Mac avec la commande pour ne pas avoir à ouvrir un Terminal/PowerShell à chaque fois !
 
