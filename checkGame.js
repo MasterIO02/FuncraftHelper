@@ -11,7 +11,9 @@ exports.checkGamemode = async () => {
     async function primaryLoop() {
         getLastLine(logFileLocation, 2)
         .then((lastLine) => lastLogLine = lastLine)
-        if(lastLogLine.includes("Vous avez quitt") && config.exited == false) { 
+
+        switch(true) {
+          case lastLogLine.includes("Vous avez quitt") && config.exited == false:
             console.log("Vous avez quitté le jeu.")
             config.exited = true
             config.secondPlayerNotFound = false
@@ -21,21 +23,25 @@ exports.checkGamemode = async () => {
             config.findUnameCalled = false
             stopPrimaryLoop()
             recheckGamemode()
+            break;
 
-        } else if(lastLogLine.includes("hikabrain10#2x1") && config.findUnameCalled == false) {
+          case lastLogLine.includes("hikabrain10#2x1") && config.findUnameCalled == false:
             config.gameChosen = "Hika1v1"
             config.exited = false
             callFindUname()
             console.log("Hikabrain 1v1 choisi")
             config.findUnameCalled = true
             stopPrimaryLoop()
-        } else if(lastLogLine.includes("rushFASTMDTPAC10#2x1") && config.findUnameCalled == false) {
-          config.gameChosen = "RushFast1v1"
-          config.exited = false
-          callFindUname()
-          console.log("Rush Fast MDT 1v1 choisi")
-          config.findUnameCalled = true
-          stopPrimaryLoop()
+            break;
+
+          case lastLogLine.includes("rushFASTMDTPAC10#2x1") && config.findUnameCalled == false:
+            config.gameChosen = "RushFast1v1"
+            config.exited = false
+            callFindUname()
+            console.log("Rush Fast MDT 1v1 choisi")
+            config.findUnameCalled = true
+            stopPrimaryLoop()
+            break;
         }
     }
 
