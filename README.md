@@ -22,7 +22,7 @@ L'installation ne se fait pas comme n'importe quel logiciel ou il faut cliquer s
 Etant donné que FuncraftHelper est en développement assez précoce, il va falloir mettre la main à la pâte.
 1. Installez node.js, depuis leur site : https://nodejs.org. Pendant l'installation, sous Windows, cochez bien "Add to PATH" à la fin de l'installation et redémarrez votre ordinateur !
 2. Téléchargez les fichiers source de FuncraftHelper de ce repository et mettez les dans n'importe quel dossier sur votre ordinateur.
-3. Ouvrez un Terminal/PowerShell dans ce dossier puis tapez : npm install puppeteer, npm install readline, et enfin npm install node-fetch.
+3. Lancez install.bat (sous Windows) ou ouvrez un Terminal/PowerShell dans ce dossier puis tapez : npm install puppeteer, npm install readline, et enfin npm install node-fetch.
 4. Modifiez le fichier config.js !! Vous devez indiquer a FuncraftHelper votre pseudo Funcraft et l'emplacement de votre .pactify ou .minecraft, puis changer vos paramètres selon vos préférences. Tout est expliqué dedans !
 5. Ensuite faites "node ./FuncraftHelper.js" et le tour est joué ! Vous pouvez aussi créer un fichier bat pour Windows ou batch pour Linux/Mac avec la commande pour ne pas avoir à ouvrir un Terminal/PowerShell à chaque fois !
 
