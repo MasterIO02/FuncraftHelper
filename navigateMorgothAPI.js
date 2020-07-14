@@ -1,5 +1,6 @@
 const config = require('./config')
 const fetch = require("node-fetch");
+const { recheckGamemode } = require('./recheckGamemode');
 
 exports.navigateMorgothAPI = async () => {
     
@@ -16,6 +17,6 @@ exports.navigateMorgothAPI = async () => {
     .then(res => res.json())
     .then((json) => {
         console.log("Le Winrate en " + gameSelected + " de " + config.secondPlayerUname + " est de " + json.stats.winrate + "%, en " + json.data.parties + " parties.")
+        recheckGamemode()
     })
-    
 }
