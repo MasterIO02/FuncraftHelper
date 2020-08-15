@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title> FuncraftHelper - Paramètres</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="checkGame.js"></script>
+</head>
+
+
+<body>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <span class="buttons" style="position: fixed; right: 10px; top: 10px">
+        <button id="close-btn">x</button>
+    </span>
+    <h4 style="position: fixed; top: -10px" class="title"> FuncraftHelper 2.1.0 - Paramètres</h4>
+
+    <label style="position: fixed; top: 40px; left: 40px;" class="switch">
+        <input type="checkbox" id="useMorgothAPISwitch">
+        <div>
+            <p style="position:relative; right: -100px"> Utiliser l'API de LordMorgoth </p>
+            <span></span>
+        </div>
+    </label>
+
+    <textarea spellcheck="false" hidden name="MorgothAPIKeyTextArea" id="MorgothAPIKeyTextArea" rows="1" cols="15"
+        style="-webkit-text-security: disc ; font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; top: 55px; left: 420px"></textarea>
+    <p hidden id="APIKeyText" style="position:fixed; top: 65px; left: 437px; user-select: none;"> Votre clé d'API </p>
+
+    <label style="position: fixed; top: 95px; left: 40px;" class="switch">
+        <input type="checkbox" id="headlessSwitch">
+        <div>
+            <p style="position:fixed; left: 140px; top: 80px"> Mode headless </p>
+            <span></span>
+        </div>
+    </label>
+
+    <textarea spellcheck="false" name="usernameTextArea" id="usernameTextArea" rows="1" cols="10"
+        style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 135px; left: 20px;"></textarea>
+    <p style="position:fixed; left:140px; top:120px; user-select: none;"> Pseudo in-game </p>
+
+    <textarea spellcheck="false" name="logFileLocationTextArea" id="logFileLocationTextArea" rows="1" cols="60"
+        style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 350px;"></textarea>
+    <p style="position:fixed; left: 140px; top: 300px; user-select: none;"> Emplacement du latest.log de Minecraft </p>
+
+    <textarea spellcheck="false" name="chromeLocationTextArea" id="chromeLocationTextArea" rows="1" cols="60"
+        style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 280px;"></textarea>
+    <p style="position:fixed; left: 140px; top: 230px; user-select: none;"> Emplacement de Chrome ou Chromium </p>
+
+    <p style="position:fixed; left: 10px; top: 365px; user-select: none; font-size: small; font-style: oblique;"> Système : </p>
+    <p id="systemType" style="position:fixed; left: 70px; top: 365px; user-select: none; font-size: small; font-style: oblique;"> Inconnu </p>
+
+    <div class="help-tip" style="position: fixed; top: 99px; left: 255px">
+        <p>Si cette option est désactivée, la vérification des statistiques sera faite en étant visible. Par défaut
+            activée donc invisible.</p>
+    </div>
+
+</body>
+
+
+<script>
+    function init() {
+        const sharedVars = require('./sharedVars')
+        const { BrowserWindow } = require('electron').remote
+        const { ipcRenderer } = require('electron');
+        const Store = require('electron-store');
+        const store = new Store();
+
+        document.getElementById("close-btn").addEventListener("click", (e) => {
+            var window = BrowserWindow.getFocusedWindow();
+            ipcRenderer.send('hideSettingsWindow')
+        })
+
+        // Initialisation du system type
+        document.getElementById("systemType").innerHTML = store.get('systemType')
+
+        // Script pour switch MorgothAPI
+        if (store.get('useMorgothAPI') == true) {
+            document.getElementById("useMorgothAPISwitch").checked = true
+            document.getElementById("APIKeyText").hidden = false
+            document.getElementById("MorgothAPIKeyTextArea").hidden = false
+
+        } else {
+            document.getElementById("useMorgothAPISwitch").checked = false
+        }
+
+        document.getElementById("useMorgothAPISwitch").addEventListener("click", (e) => {
+            if (store.get('useMorgothAPI') == true) {
+                store.set('useMorgothAPI', false)
+                document.getElementById("APIKeyText").hidden = true
+                document.getElementById("MorgothAPIKeyTextArea").hidden = true
+
+            } else {
+                store.set('useMorgothAPI', true)
+                document.getElementById("APIKeyText").hidden = false
+                document.getElementById("MorgothAPIKeyTextArea").hidden = false
+
+            }
+        })
+
+        // Script pour switch headless
+        if (store.get('headless') == true) {
+            document.getElementById("headlessSwitch").checked = true
+        } else {
+            document.getElementById("headlessSwitch").checked = false
+        }
+
+        document.getElementById("headlessSwitch").addEventListener("click", (e) => {
+            if (store.get('headless') == true) {
+                store.set('headless', false)
+            } else {
+                store.set('headless', true)
+            }
+        })
+
+        // Script pour textarea username
+        document.getElementById("usernameTextArea").value = store.get('username')
+        document.getElementById("usernameTextArea").addEventListener("input", (e) => {
+            store.set('username', document.getElementById('usernameTextArea').value)
+        })
+
+        // Script pour textarea morgothAPIkey
+        document.getElementById("MorgothAPIKeyTextArea").value = store.get('MorgothAPIKey')
+        document.getElementById("MorgothAPIKeyTextArea").addEventListener("input", (e) => {
+            store.set('MorgothAPIKey', document.getElementById('MorgothAPIKeyTextArea').value)
+        })
+
+        // Script pour emplacement latest.log
+        document.getElementById("logFileLocationTextArea").value = store.get('logFileLocation')
+        document.getElementById("logFileLocationTextArea").addEventListener("input", (e) => {
+            store.set('logFileLocation', document.getElementById('logFileLocationTextArea').value)
+        })
+
+        // Script pour emplacement chrome
+        document.getElementById("chromeLocationTextArea").value = store.get('chromeLocation')
+        document.getElementById("chromeLocationTextArea").addEventListener("input", (e) => {
+            store.set('chromeLocation', document.getElementById('chromeLocationTextArea').value)
+        })
+
+    }
+
+    init()
+
+</script>
+
+</html>

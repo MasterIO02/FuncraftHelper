@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title> FuncraftHelper </title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="checkGame.js"></script>
+</head>
+
+<body>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <h4 style="position: fixed; top: -10px; -webkit-app-region: drag;" class="title"> FuncraftHelper 2.1.0 </h4>
+    <span class="buttons" style="position: fixed; right: 10px; top: 10px">
+        <button id="settings-btn">p</button>
+        <button id="min-btn">-</button>
+        <button id="close-btn">x</button>
+    </span>
+    <textarea id="mainTextArea" rows='21' cols='71' style="resize: none; position: fixed; left: 5px; top: 50px"
+        disabled="disabled">
+        </textarea>
+</body>
+
+
+<script>
+
+    // Initialisation GUI
+    function initGUI() {
+
+        const { BrowserWindow } = require('electron').remote
+        document.getElementById("min-btn").addEventListener("click", (e) => {
+            var window = BrowserWindow.getFocusedWindow();
+            window.minimize();
+        })
+        document.getElementById("close-btn").addEventListener("click", (e) => {
+            var window = BrowserWindow.getFocusedWindow();
+            window.close();
+        })
+        document.getElementById("settings-btn").addEventListener("click", (e) => {
+            var window = BrowserWindow.getFocusedWindow();
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('showSettingsWindow')
+        })
+        document.getElementById("mainTextArea").value = '           - https://github.com/MasterIO02/FuncraftHelper -\n';
+        document.getElementById("mainTextArea").value += "      - Faites moi part de vos suggestions / bugs sur GitHub ! -\n\n"
+
+    }
+    initGUI()
+
+    const mainWindowScripts = require('./mainWindowScripts').mainWindowScripts
+    mainWindowScripts()
+
+
+</script>
+
+</html>

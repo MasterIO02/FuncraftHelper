@@ -1,22 +1,38 @@
-const config = require('./config')
+const sharedVars = require('./sharedVars')
 const fetch = require("node-fetch");
-const { recheckGamemode } = require('./recheckGamemode');
+const checkGamemode = require('./checkGame').checkGamemode
+var textarea = document.getElementById('mainTextArea');
+
+const Store = require('electron-store');
+const store = new Store();
 
 exports.navigateMorgothAPI = async () => {
-    
+
     let gameSelected = ''
-    if(config.gameChosen == 'Hika1v1') {
+    if (sharedVars.gameChosen == 'Hika1v1') {
         gameSelected = 'Hikabrain'
-    } else if(config.gameChosen == 'RushFast1v1') {
+    } else if (sharedVars.gameChosen == 'RushFast1v1') {
         gameSelected = 'Rush'
     }
 
-    let url = 'https://lordmorgoth.net/APIs/stats?key=' + config.MorgothAPIKey + '&joueur=' + config.secondPlayerUname + '&mode=' + gameSelected + '&periode=toujours';
+    let url = 'https://lordmorgoth.net/APIs/stats?key=' + store.get('MorgothAPIKey') + '&joueur=' + sharedVars.secondPlayerUname + '&mode=' + gameSelected + '&periode=toujours';
 
     fetch(url)
-    .then(res => res.json())
-    .then((json) => {
-        console.log("Le Winrate en " + gameSelected + " de " + config.secondPlayerUname + " est de " + json.stats.winrate + "%, en " + json.data.parties + " parties.")
-        recheckGamemode()
-    })
+        .then(res => res.json())
+        .then((json) => {
+            if (json.exit_code == 0) {
+                document.getElementById("mainTextArea").value += "Le Winrate en " + gameSelected + " de " + sharedVars.secondPlayerUname + " est de " + json.stats.winrate + "%, en " + json.data.parties + " parties.\n"
+                textarea.scrollTop = textarea.scrollHeight;
+                checkGamemode()
+            }
+            else {
+                document.getElementById("mainTextArea").value += "Une erreur est survenue. " + json.error + " Code d'erreur " + json.exit_code + "\n"
+                textarea.scrollTop = textarea.scrollHeight;
+                checkGamemode()
+            }
+            document.getElementById("mainTextArea").value += "Attente du choix de mode de jeu...\n"
+            textarea.scrollTop = textarea.scrollHeight;
+
+
+        })
 }
