@@ -22,6 +22,11 @@ FuncraftHelper fonctionne mieux sous Linux que Windows, peut être qu'il serait 
 # Installation
 Le programme est portable, c'est à dire qu'il ne s'installe pas, par contre il écrit ses fichiers de config dans le .local sur Linux et dans AppData/Roaming sous Windows.
 
+# Utilisation
+Après avoir lancé FuncraftHelper, il va vous demander de modifier des paramètres avant de commencer a utiliser FH.
+Assurez vous d'avoir Chrome d'installé, et changez votre nom d'utilsateur dans "emplacement de latest.log"
+Si vous êtes sous Windows, LANCEZ LE PROGRAMME EN ADMINISTRATEUR ! Les performances sont bien meilleures. 
+
 # Compilation
 Si vous voulez compiler FuncraftHelper depuis le code source, vous pouvez importer les fichiers dans votre VS Code et exécuter "npm run dist" pour compiler FH suivant le système utilisé. 
 
