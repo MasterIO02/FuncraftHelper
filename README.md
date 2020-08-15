@@ -27,6 +27,9 @@ Après avoir lancé FuncraftHelper, il va vous demander de modifier des paramèt
 Assurez vous d'avoir Chrome d'installé, et changez votre nom d'utilsateur dans "emplacement de latest.log"
 Si vous êtes sous Windows, LANCEZ LE PROGRAMME EN ADMINISTRATEUR ! Les performances sont bien meilleures. 
 
+# Comment marche FuncraftHelper ?
+En gros, il va vérifier le fichier de log Minecraft en continu pour y détecter les joueurs qui se connectent au games lancées sur Funcraft. Quand il a trouvé le joueur, il va chercher ses stats sur le site de Funcraft sans intervention humaines puis les afficher. 
+
 # Compilation
 Si vous voulez compiler FuncraftHelper depuis le code source, vous pouvez importer les fichiers dans votre VS Code et exécuter "npm run dist" pour compiler FH suivant le système utilisé. 
 
