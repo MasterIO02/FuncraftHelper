@@ -7,13 +7,11 @@ exports.rushVictoryCountXPath = '//*[@id="player-stats"]/div[4]/div[1]/div/div[2
 
 
 // Ne touchez pas à ces variables, sans elles FuncraftHelper ne fonctionnera pas correctement.
-exports.firstPlayerUname = ''
-exports.secondPlayerUname = ''
-exports.secondPlayerNotFound = false
-exports.secondPlayerSaid = false
+exports.playerUsername = ''
+exports.playerNotFound = false
+exports.playerSaid = false
 exports.findUnameFinished = false
 exports.exited = false
-exports.secondPlayerFinished = false
 exports.gameChosen = ""
 exports.findUnameCalled = false
 exports.systemType = ""

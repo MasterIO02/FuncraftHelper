@@ -20,25 +20,9 @@ app.on('ready', function () {
     })
     mainWindow.setResizable(false)
     mainWindow.loadURL(`file://${__dirname}/mainWindow.html`)
-
-    settingsWindow = new BrowserWindow({
-        height: 400,
-        width: 600,
-        frame: false,
-        parent: mainWindow,
-        show: false,
-        modal: true,
-        webPreferences: {
-            nodeIntegration: true,
-            enableRemoteModule: true
-        }
-    })
-    settingsWindow.setResizable(false)
-    settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html`)
-
 })
 
-// Init settingsWindow
+// Init config si premier lancement
 
 if (store.get('firstLaunch') == undefined) {
     store.set('systemType', os.platform())
@@ -53,23 +37,6 @@ if (store.get('firstLaunch') == undefined) {
         store.set("chromeLocation", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
     }
 }
-
-
-// Calls depuis les fichiers HTML
-const { ipcMain } = require('electron')
-
-ipcMain.on('showSettingsWindow', (event, arg) => {
-    var bounds = mainWindow.getBounds()
-    settingsWindow.setBounds(bounds)
-    settingsWindow.show()
-})
-ipcMain.on('hideSettingsWindow', (event, arg) => {
-    settingsWindow.hide()
-})
-ipcMain.on('reloadSettingsWindow', (event, arg) => {
-    settingsWindow.reload()
-})
-
 
 
 

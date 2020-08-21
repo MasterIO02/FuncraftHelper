@@ -10,9 +10,6 @@ exports.checkGamemode = async () => {
   checkGamemode()
 }
 
-if (store.get('systemType') == "win32") {
-  document.getElementById("mainTextArea").value += "Windows détecté. Lancez le programme en administrateur pour de bien meilleures performances.\n\n"
-}
 document.getElementById("mainTextArea").value += "Attente du choix de mode de jeu...\n"
 function checkGamemode() {
   textarea.scrollTop = textarea.scrollHeight;
@@ -30,10 +27,9 @@ function checkGamemode() {
         document.getElementById("mainTextArea").value += "Vous avez quitté le jeu.\n"
         textarea.scrollTop = textarea.scrollHeight;
         sharedVars.exited = true
-        sharedVars.secondPlayerNotFound = false
-        sharedVars.secondPlayerSaid = false
+        sharedVars.playerNotFound = false
+        sharedVars.playerSaid = false
         sharedVars.findUnameFinished = false
-        sharedVars.secondPlayerFinished = false
         sharedVars.findUnameCalled = false
         sharedVars.ingame = false
         stopPrimaryLoop()
@@ -43,7 +39,7 @@ function checkGamemode() {
       case lastLogLine.includes("[HikaBrain]"):
         if (sharedVars.inGame == false) {
           sharedVars.inGame = true
-          sharedVars.secondPlayerNotFound = false
+          sharedVars.playerNotFound = false
           stopPrimaryLoop()
           checkGamemode()
         }
@@ -98,14 +94,14 @@ function findUname() {
     switch (true) {
       case lastLogLine.includes("(2/"):
         secondPlayerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-        if (secondPlayerName == store.get('username') && sharedVars.secondPlayerNotFound == false) {
+        if (secondPlayerName == store.get('username') && sharedVars.playerNotFound == false) {
           ownPlayerConnected()
         } else {
           lastLogLine = ""
           document.getElementById("mainTextArea").value += "Le joueur " + secondPlayerName + " s'est connecté à la game.\n"
           textarea.scrollTop = textarea.scrollHeight;
-          sharedVars.secondPlayerUname = secondPlayerName
-          sharedVars.secondPlayerSaid = true
+          sharedVars.playerUsername = secondPlayerName
+          sharedVars.playerSaid = true
           sharedVars.findUnameCalled = false
           if (store.get('useMorgothAPI') == false) {
             navigatePlayerTwo()
@@ -126,7 +122,7 @@ function findUname() {
       document.getElementById("mainTextArea").value += "Le second joueur n'a pas pu être trouvé car vous avez été connecté sur un lobby ou il était déjà présent.\n"
       document.getElementById("mainTextArea").value += "Attente du choix de mode de jeu...\n"
       textarea.scrollTop = textarea.scrollHeight;
-      sharedVars.secondPlayerNotFound = true
+      sharedVars.playerNotFound = true
       sharedVars.findUnameCalled = false
       stopFindUname()
       checkGamemode()

@@ -5,7 +5,11 @@ const Store = require('electron-store');
 const { checkGamemode } = require('./checkGame.js');
 const store = new Store();
 
+
+
 exports.navigatePlayerTwo = async () => {
+
+    var playerUsername = sharedVars.playerUsername
 
     function errorLog() {
         document.getElementById("mainTextArea").value += "Un problème est survenu. Soit le XPath n'est plus valide, soit un problème avec le navigateur s'est produit.\n"
@@ -21,7 +25,7 @@ exports.navigatePlayerTwo = async () => {
 
         await page.goto('https://www.funcraft.net/fr/joueurs')
         const [usernameTextBox] = await page.$x('//*[@id="main-layout"]/div[2]/div[1]/div[2]/div/form/div/input')
-        await usernameTextBox.type(sharedVars.secondPlayerUname)
+        await usernameTextBox.type(playerUsername)
         await page.keyboard.press('Enter')
 
         if (sharedVars.gameChosen == "Hika1v1") {
@@ -47,14 +51,16 @@ exports.navigatePlayerTwo = async () => {
         var Winrate = (victoryCount / gamesCount * 100)
         var roundedWinrate = Winrate.toFixed(2);
 
-
+        // Initialisation du mot du mode de jeu pour la phrase des stats
         let gameSelected = ''
         if (sharedVars.gameChosen == 'Hika1v1') {
             gameSelected = 'Hikabrain'
         } else if (sharedVars.gameChosen == 'RushFast1v1') {
             gameSelected = 'Rush'
         }
-        document.getElementById("mainTextArea").value += "Le Winrate en " + gameSelected + " de " + sharedVars.secondPlayerUname + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.\n"
+
+
+        document.getElementById("mainTextArea").value += "Le Winrate en " + gameSelected + " de " + playerUsername + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.\n"
         textarea.scrollTop = textarea.scrollHeight;
 
         if (gamesCount == "-") {
@@ -62,7 +68,6 @@ exports.navigatePlayerTwo = async () => {
             textarea.scrollTop = textarea.scrollHeight;
         }
         browser.close()
-        sharedVars.secondPlayerFinished = true
         checkGamemode()
         document.getElementById("mainTextArea").value += "Attente du choix de mode de jeu...\n"
         textarea.scrollTop = textarea.scrollHeight;  
