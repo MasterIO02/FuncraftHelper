@@ -18,6 +18,14 @@ body {
     user-select: none;
 }
 
+div.dragHitbox {
+    border: solid 21px transparent;
+    width: 600px;
+    height: 5px;
+    -webkit-app-region: drag;
+    user-select: none;
+}
+
 .switch {
     --line: #505162;
     --dot: #f7f8ff;
