@@ -39,6 +39,5 @@ Ce problème sera corrigé dans de futures optimisations (j'espère).
 
 # Roadmap / Améliorations notées
 - Optimiser et intégrer tout les modes de jeu de Funcraft.
-- Avoir la possibilité de rentrer le pseudo de l'adversaire quand il n'a pas été détecté.
 - Faire des bases de données hors-ligne pour alléger les ordinateurs les moins puissants qui n'auront pas à aller sur le site de Funcraft à chaque fois qu'il doit rechercher un joueur
 - Mettre en place un serveur permettant de mettre des notes aux joueurs rencontrés que les autres utilisateurs de FuncraftHelper pourront voir et améliorer.
