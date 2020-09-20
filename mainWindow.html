@@ -3,71 +3,84 @@
 
 <head>
     <title> FuncraftHelper </title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <script type="text/javascript" src="checkGame.js"></script>
 </head>
 
 <body>
-    <div class="dragHitbox"></div>
-    </div>
+
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
 
+    <div class="container"></div>
 
-    <span class="buttons" style="position: fixed; right: 10px; top: 10px">
-        <button id="settings-btn">p</button>
-        <button id="min-btn">-</button>
-        <button id="close-btn">x</button>
-    </span>
+    <div class="dragHitbox"></div>
+
+    <div id="discord-btn" class="discord-btn" style="position: fixed; right: 110px;"></div>
+    <div id="themes-btn" class="themes-btn" style="position: fixed; right: 85px;"></div>
+    <div id="settings-btn" class="settings-btn" style="position: fixed; right: 60px;"></div>
+    <div id="min-btn" class="min-btn" style="position: fixed; right: 35px;"></div>
+    <div id="close-btn" class="close-btn" style="position: fixed; right: 10px;"></div>
+
 
     <div id="mainObjects" class="mainObjects" style="visibility: visible;">
-        <h4 style="position: fixed; top: -10px; left: 10px;" class="title"> FuncraftHelper 2.1.1 </h4>
-        <textarea id="mainTextArea" rows='21' cols='71' style="resize: none; position: fixed; left: 5px; top: 50px"
+        <h4 style="position: fixed; top: -10px; left: 10px; user-select: none" class="text"> FuncraftHelper 2.1.2
+        </h4>
+        <textarea id="mainTextArea" rows='21' cols='71' style="resize: none; position: fixed; left: 5px; top: 42px"
             disabled="disabled">
         </textarea>
     </div>
 
 
+
     <div id="settingsObjects" class="settingsObjects" style="visibility: hidden;">
-        <h4 style="position: fixed; top: -10px; left: 10px" class="title"> FuncraftHelper 2.1.1 - Paramètres</h4>
+        <h4 class="text" style="position: fixed; top: -10px; left: 10px" class="text"> FuncraftHelper 2.1.2 - Paramètres</h4>
 
         <label style="position: fixed; top: 40px; left: 40px" class="switch">
             <input type="checkbox" id="useMorgothAPISwitch">
             <div>
-                <p style="position:relative; right: -100px"> Utiliser l'API de LordMorgoth </p>
+                <p class="text" style="position:relative; right: -100px"> Utiliser l'API de LordMorgoth </p>
                 <span></span>
             </div>
         </label>
 
         <textarea spellcheck="false" hidden name="MorgothAPIKeyTextArea" id="MorgothAPIKeyTextArea" rows="1" cols="15"
             style="-webkit-text-security: disc ; font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; top: 55px; left: 420px"></textarea>
-        <p hidden id="APIKeyText" style="position:fixed; top: 65px; left: 437px; user-select: none;"> Votre clé d'API
+        <p hidden class="text" id="APIKeyText" style="position:fixed; top: 65px; left: 437px; user-select: none;"> Votre clé d'API
         </p>
 
         <label style="position: fixed; top: 95px; left: 40px;" class="switch">
             <input type="checkbox" id="headlessSwitch">
             <div>
-                <p style="position:fixed; left: 140px; top: 80px"> Mode headless </p>
+                <p class="text" style="position:fixed; left: 140px; top: 80px"> Mode headless </p>
+                <span></span>
+            </div>
+        </label>
+
+        <label style="position: fixed; top: 143px; left: 40px;" class="switch">
+            <input type="checkbox" id="manualEnter">
+            <div>
+                <p class="text" style="position:fixed; left: 140px; top: 160px"> Mode manuel si ennemi non trouvé </p>
                 <span></span>
             </div>
         </label>
 
         <textarea spellcheck="false" name="usernameTextArea" id="usernameTextArea" rows="1" cols="10"
             style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 135px; left: 20px;"></textarea>
-        <p style="position:fixed; left:140px; top:120px; user-select: none;"> Pseudo in-game </p>
+        <p class="text" style="position:fixed; left:140px; top:120px; user-select: none;"> Pseudo in-game </p>
 
         <textarea spellcheck="false" name="logFileLocationTextArea" id="logFileLocationTextArea" rows="1" cols="60"
             style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 350px; left: 45px"></textarea>
-        <p style="position:fixed; left: 140px; top: 300px; user-select: none;"> Emplacement du latest.log de Minecraft
+        <p class="text" style="position:fixed; left: 140px; top: 300px; user-select: none;"> Emplacement du latest.log de Minecraft
         </p>
 
         <textarea spellcheck="false" name="chromeLocationTextArea" id="chromeLocationTextArea" rows="1" cols="60"
             style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 280px; left: 45px"></textarea>
-        <p style="position:fixed; left: 140px; top: 230px; user-select: none;"> Emplacement de Chrome ou Chromium </p>
+        <p class="text" style="position:fixed; left: 140px; top: 230px; user-select: none;"> Emplacement de Chrome ou Chromium </p>
 
-        <p style="position:fixed; left: 10px; top: 365px; user-select: none; font-size: small; font-style: oblique;">
+        <p class="text" style="position:fixed; left: 10px; top: 365px; user-select: none; font-size: small; font-style: oblique;">
             Système : </p>
-        <p id="systemType"
+        <p class="text" id="systemType"
             style="position:fixed; left: 70px; top: 365px; user-select: none; font-size: small; font-style: oblique;">
             Inconnu </p>
 
@@ -75,6 +88,30 @@
             <p>Si cette option est désactivée, la vérification des statistiques sera faite en étant visible. Par défaut
                 activée donc invisible.</p>
         </div>
+
+        <div class="help-tip" style="position: fixed; top: 178px; left: 403px">
+            <p>Si cette option est activée et qu'un joueur ennemi n'est pas détecté automatiquement, une fenêtre
+                s'ouvrira pour entrer son pseudo manuellement. (MODES 1v1 SEULEMENT)</p>
+        </div>
+
+        <div class="help-tip" style="position: fixed; top: 60px; left: 352px">
+            <p>L'API de LordMorgoth permet d'avoir une recherche de statistiques quasi instantanée. Rendez vous sur
+                lordmorgoth.net pour demander une clé (c'est gratuit !, MODES 1v1 SEULEMENT)</p>
+        </div>
+
+        <div class="help-tip" style="position: fixed; top: 250px; left: 432px">
+            <p>Chrome est nécessaire pour rechercher les statistiques des joueurs adverses.</p>
+        </div>
+    </div>
+
+    <div id="enterUsernameWindow" style="visibility: hidden">
+        <div class="enterUsernameRectangle"
+            style="position: fixed; width: 300px; height: 100px; left: 150px; top: 75px"> </div>
+        <button id="close-btn-enterUsernameWindow" style="position:fixed; left: 387px; top: 82px">passer</button>
+        <textarea spellcheck="false" id="manualUsernameTextarea" rows="1" cols="15"
+            style="font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; user-select: none; left:230px; top:145px"></textarea>
+        <p style="font-size: small; position:fixed; left: 165px; top:72px; user-select: none;" class="text">Le joueur n'a pas été
+            trouvé. <br> Entrez son pseudo manuellement <br> pour avoir ses stats.</p>
     </div>
 </body>
 
@@ -86,24 +123,71 @@
         const Store = require('electron-store');
         const store = new Store();
 
-        // Actions boutons
+        // Change la taille du mainTextArea sur windows, la résolution est mal gérée
+        if(store.get('systemType') == 'win32') {
+            document.getElementById("mainTextArea").rows = 23
+        }
+
+        // Actions boutons basiques
+        document.getElementById("close-btn-enterUsernameWindow").addEventListener("click", (e) => {
+            document.getElementById("enterUsernameWindow").style.visibility = "hidden"
+        })
+
         document.getElementById("min-btn").addEventListener("click", (e) => {
             var window = BrowserWindow.getFocusedWindow();
             window.minimize();
         })
+
         document.getElementById("close-btn").addEventListener("click", (e) => {
             var window = BrowserWindow.getFocusedWindow();
             window.close();
         })
+
+        document.getElementById("discord-btn").addEventListener("click", (e) => {
+            require('electron').shell.openExternal('https://discord.gg/QfbZBPA')
+        })
+
         document.getElementById("settings-btn").addEventListener("click", (e) => {
             if (document.getElementById("settingsObjects").style.visibility == "hidden") {
-                document.getElementById("settingsObjects").style.visibility = "visible"
                 document.getElementById("mainObjects").style.visibility = "hidden"
+                document.getElementById("settingsObjects").style.visibility = "visible"
             } else {
-                document.getElementById("mainObjects").style.visibility = "visible"
                 document.getElementById("settingsObjects").style.visibility = "hidden"
+                document.getElementById("mainObjects").style.visibility = "visible"
             }
         })
+
+        // Chargeur de thème
+        function loadCSS(load) {
+            const path = require('path')
+            var head = document.getElementsByTagName("head")[0];
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = path.join(__dirname, "/css/" + load + ".css");
+            console.log(link)
+            head.appendChild(link);
+        }
+
+        // Chargement du thème au démarrage
+        if(store.get('theme') == 'default') {
+            loadCSS("default")
+        } else if(store.get('theme') == 'dark') {
+            loadCSS("dark")
+        }
+
+        // Bouton thèmes
+        document.getElementById("themes-btn").addEventListener("click", (e) => {
+            if (store.get('theme') == 'default') {
+                loadCSS("dark")
+                store.set('theme', 'dark')
+            } else if (store.get('theme') == 'dark') {
+                loadCSS("default")
+                store.set('theme', "default")
+            }
+        })
+
+
 
         // Initialisation du system type
         document.getElementById("systemType").innerHTML = store.get('systemType')
@@ -128,7 +212,6 @@
                 store.set('useMorgothAPI', true)
                 document.getElementById("APIKeyText").hidden = false
                 document.getElementById("MorgothAPIKeyTextArea").hidden = false
-
             }
         })
 
@@ -144,6 +227,21 @@
                 store.set('headless', false)
             } else {
                 store.set('headless', true)
+            }
+        })
+
+        // Script pour switch manualEnter
+        if (store.get('manualEnter') == true) {
+            document.getElementById("manualEnter").checked = true
+        } else {
+            document.getElementById("manualEnter").checked = false
+        }
+
+        document.getElementById("manualEnter").addEventListener("click", (e) => {
+            if (store.get('manualEnter') == true) {
+                store.set('manualEnter', false)
+            } else {
+                store.set('manualEnter', true)
             }
         })
 
@@ -171,18 +269,28 @@
             store.set('chromeLocation', document.getElementById('chromeLocationTextArea').value)
         })
 
+
+
+        // Fin scripts
         document.getElementById("mainTextArea").value = '           - https://github.com/MasterIO02/FuncraftHelper -\n';
         document.getElementById("mainTextArea").value += "      - Faites moi part de vos suggestions / bugs sur GitHub ! -\n\n"
+        document.getElementById("mainTextArea").value += "Redémarrez Minecraft toutes les heures pour de meilleures performances !\n\n";
 
+        document.getElementById("manualUsernameTextarea").focus()
     }
     initGUI()
+
+
+
+
+
 
     // Check si une mise à jour est disponible
     const fetch = require("node-fetch");
     fetch("https://api.github.com/repos/MasterIO02/FuncraftHelper/releases/latest")
         .then(res => res.json())
         .then((json) => {
-            if (json.tag_name != "2.1.1") {
+            if (json.tag_name != "2.1.2" && json.documentation_url != "https://developer.github.com/v3/#rate-limiting") {
                 document.getElementById("mainTextArea").value += "\nLa version " + json.tag_name + " de FuncraftHelper est disponible !\n";
                 document.getElementById("mainTextArea").value += "Téléchargez-la pour disposer de corrections de bugs, optis, et nouvelles fonctionnalités !\n";
                 document.getElementById("mainTextArea").value += "https://github.com/MasterIO02/FuncraftHelper/releases\n\n";
@@ -190,7 +298,7 @@
         })
 
 
-    // Check si c'est la première fois que FH est lancé
+    // Check si c'est la première fois que FH est lancé, si non, FH commencera la recherche
     if (store.get('firstLaunch') == undefined) {
         document.getElementById("mainTextArea").value += "Il s'agit visiblement de la première fois que FuncraftHelper est lancé. Modifiez les paramètres puis relancez le programme !\n";
         store.set('firstLaunch', false)
@@ -203,6 +311,25 @@
         const checkGamemode = require('./checkGame').checkGamemode
         checkGamemode()
     }
+
+
+    // Check si enter est appuyé, pour check les stats de quelqu'un manuellement
+    document.getElementById("enterUsernameWindow").addEventListener("keypress", (e) => {
+        if (e.key === 'Enter') {
+            const sharedVars = require('./sharedVars')
+            sharedVars.playerUsername = document.getElementById("manualUsernameTextarea").value
+            document.getElementById("manualUsernameTextarea").value = ""
+            document.getElementById("enterUsernameWindow").style.visibility = "hidden"
+            document.getElementById("mainTextArea").value += "Recherche des stats de " + sharedVars.playerUsername + "...\n"
+            if (store.get('useMorgothAPI') == false) {
+                const navigatePlayer = require('./navigatePlayer').navigatePlayer
+                navigatePlayer()
+            } else {
+                const navigateMorgothAPI = require('./navigateMorgothAPI').navigateMorgothAPI
+                navigateMorgothAPI()
+            }
+        }
+    })
 
 </script>
 

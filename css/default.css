@@ -1,0 +1,140 @@
+body {
+    display: flex;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+    background: #e1cbff;
+    transition: 0.5s;
+
+}
+
+.buttons {
+    -webkit-app-region: no-drag;
+    user-select: none;
+}
+
+.settings-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/Adjust.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.settings-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/AdjustHover.png")no-repeat;
+    transform: translateZ(0);
+    transition: 0.15s;
+}
+
+.settings-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/AdjustOnClick.png")no-repeat;
+    user-select: none;
+}
+
+.min-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/Minimize.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.min-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/MinimizeHover.png")no-repeat;
+}
+
+.min-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/MinimizeOnClick.png")no-repeat;
+    user-select: none;
+}
+
+.close-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/Close.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/CloseHover.png")no-repeat;
+}
+
+.close-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/CloseOnClick.png")no-repeat;
+    user-select: none;
+}
+
+.themes-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/Themes.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.themes-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/ThemesHover.png")no-repeat;
+}
+
+.themes-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/ThemesOnClick.png")no-repeat;
+    user-select: none;
+}
+
+.discord-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/Discord.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.discord-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/DiscordHover.png")no-repeat;
+}
+
+.discord-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/DiscordOnClick.png")no-repeat;
+    user-select: none;
+}
+
+div.enterUsernameRectangle {
+    border: solid 5px black;
+    user-select: none;
+    opacity: 1;
+    background: #e1cbff;
+}
+
+.switch {
+    --line: #505162;
+    --dot: #f7f8ff;
+    --circle: #9ea0be;
+    --duration: 0.3s;
+    --text: #9ea0be;
+    cursor: pointer;
+}
+
+.text {
+    color: black;
+}

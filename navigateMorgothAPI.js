@@ -8,20 +8,13 @@ const store = new Store();
 
 exports.navigateMorgothAPI = async () => {
 
-    let gameSelected = ''
-    if (sharedVars.gameChosen == 'Hika1v1') {
-        gameSelected = 'Hikabrain'
-    } else if (sharedVars.gameChosen == 'RushFast1v1') {
-        gameSelected = 'Rush'
-    }
-
-    let url = 'https://lordmorgoth.net/APIs/stats?key=' + store.get('MorgothAPIKey') + '&joueur=' + sharedVars.playerUsername + '&mode=' + gameSelected + '&periode=toujours';
+    let url = 'https://lordmorgoth.net/APIs/stats?key=' + store.get('MorgothAPIKey') + '&joueur=' + sharedVars.playerUsername + '&mode=' + sharedVars.gameSelected + '&periode=toujours';
 
     fetch(url)
         .then(res => res.json())
         .then((json) => {
             if (json.exit_code == 0) {
-                document.getElementById("mainTextArea").value += "Le Winrate en " + gameSelected + " de " + sharedVars.playerUsername + " est de " + json.stats.winrate + "%, en " + json.data.parties + " parties.\n"
+                document.getElementById("mainTextArea").value += "Le Winrate en " + sharedVars.gameChosen + " de " + sharedVars.playerUsername + " est de " + json.stats.winrate + "%, en " + json.data.parties + " parties.\n"
                 textarea.scrollTop = textarea.scrollHeight;
                 checkGamemode()
             }
