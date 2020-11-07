@@ -6,7 +6,7 @@
 Vous voulez aider à rendre FuncraftHelper meilleur, tester ses nouvelles fonctionnalités en avant première ? Rejoignez le Discord pour devenir testeur !
 https://discord.gg/QfbZBPA
 
-FuncraftHelper est un programme permettant de voir les statistiques des joueurs contre qui vous jouez sur Funcraft en temps réel et automatiquement.
+FuncraftHelper est un logiciel crée avec Electron permettant de voir les statistiques des joueurs contre qui vous jouez sur Funcraft en temps réel et automatiquement.
 Fonctionne avec tous les launchers Minecraft, dont le AZ Launcher. **Aucune modifications du client du jeu n'est effectué !**
 Actuellement, Le Rush 1v1, 2v2, 4v4 sont supportés, ainsi que tous les modes de jeu Hikabrain, et le Skywars 12 et 16 joueurs.
 N'hésitez pas à envoyer vos retours de bugs, suggestions ou autres dans la section "issues" dans GitHub !
