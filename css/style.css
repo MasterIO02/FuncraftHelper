@@ -1,3 +1,9 @@
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+
 div.mainObjects {
     user-select: none;
 }
@@ -9,13 +15,44 @@ div.settingsObjects {
 div.dragHitbox {
     border: solid 21px transparent;
     position:fixed;
-    right: 135px;
+    right: 165px;
     width: 600px;
     height: 5px;
     -webkit-app-region: drag;
     user-select: none;
 }
 
+.background {
+    width: 600px;
+    height: 400px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);   
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+}
+
+.text-intro {
+    user-select: none;
+    opacity: 1;
+    transition: opacity 500ms;
+    background: 50% 100%/50% 50% no-repeat radial-gradient(ellipse at bottom, #fff, transparent, transparent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 10vw;
+    font-family: "Source Sans Pro", sans-serif;
+    animation: reveal 1000ms ease-in-out forwards 100ms, glow 1000ms linear 3 1000ms;
+}
+@keyframes reveal {
+    100% {
+        background-size: 300% 300%;
+    }
+}
+@keyframes glow {
+    40% {
+        text-shadow: 0 0 8px #fff;
+    }
+}
 
 
 
@@ -140,6 +177,7 @@ body .dribbble img {
 }
 
 .help-tip:before {
+    position: relative;
     content: '?';
     font-weight: bold;
     color: #fff;
@@ -206,3 +244,4 @@ body .dribbble img {
         opacity: 100%;
     }
 }
+

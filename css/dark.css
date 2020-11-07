@@ -2,9 +2,8 @@ body {
     display: flex;
     justify-content: center;
     font-family: 'Open Sans', sans-serif;
-    background: #2f4f4f;
+    background: url("../files/bg-dark.jpg") no-repeat;
     transition: 0.5s;
-
 }
 
 .buttons {
@@ -23,7 +22,7 @@ body {
 .settings-btn:hover {
     width: 24px;
     height: 24px;
-    background: url("../files/AdjustHover.png")no-repeat;
+    background: url("../files/AdjustHover.png") no-repeat;
     transform: translateZ(0);
     transition: 0.15s;
 }
@@ -31,8 +30,7 @@ body {
 .settings-btn:active {
     width: 24px;
     height: 24px;
-    background: url("../files/AdjustOnClick.png")no-repeat;
-    user-select: none;
+    background: url("../files/AdjustOnClick.png") no-repeat;
 }
 
 .min-btn {
@@ -46,14 +44,13 @@ body {
 .min-btn:hover {
     width: 24px;
     height: 24px;
-    background: url("../files/MinimizeHover.png")no-repeat;
+    background: url("../files/MinimizeHover.png") no-repeat;
 }
 
 .min-btn:active {
     width: 24px;
     height: 24px;
-    background: url("../files/MinimizeOnClick.png")no-repeat;
-    user-select: none;
+    background: url("../files/MinimizeOnClick.png") no-repeat;
 }
 
 .close-btn {
@@ -67,14 +64,13 @@ body {
 .close-btn:hover {
     width: 24px;
     height: 24px;
-    background: url("../files/CloseHover.png")no-repeat;
+    background: url("../files/CloseHover.png") no-repeat;
 }
 
 .close-btn:active {
     width: 24px;
     height: 24px;
-    background: url("../files/CloseOnClick.png")no-repeat;
-    user-select: none;
+    background: url("../files/CloseOnClick.png") no-repeat;
 }
 
 .themes-btn {
@@ -88,14 +84,13 @@ body {
 .themes-btn:hover {
     width: 24px;
     height: 24px;
-    background: url("../files/ThemesHover.png")no-repeat;
+    background: url("../files/ThemesHover.png") no-repeat;
 }
 
 .themes-btn:active {
     width: 24px;
     height: 24px;
-    background: url("../files/ThemesOnClick.png")no-repeat;
-    user-select: none;
+    background: url("../files/ThemesOnClick.png") no-repeat;
 }
 
 .discord-btn {
@@ -109,22 +104,55 @@ body {
 .discord-btn:hover {
     width: 24px;
     height: 24px;
-    background: url("../files/DiscordHover.png")no-repeat;
+    background: url("../files/DiscordHover.png") no-repeat;
 }
 
 .discord-btn:active {
     width: 24px;
     height: 24px;
-    background: url("../files/DiscordOnClick.png")no-repeat;
-    user-select: none;
+    background: url("../files/DiscordOnClick.png") no-repeat;
 }
 
-div.enterUsernameRectangle {
-    border: solid 5px black;
-    user-select: none;
-    opacity: 1;
-    background: #2f4f4f;
+.pause-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/PauseWhite.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
 }
+
+.pause-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/PauseHover.png") no-repeat;
+}
+
+.pause-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/PauseOnClick.png") no-repeat;
+}
+
+.resume-btn {
+    width: 24px;
+    height: 24px;
+    background: url("../files/ResumeWhite.png") no-repeat;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.resume-btn:hover {
+    width: 24px;
+    height: 24px;
+    background: url("../files/ResumeHover.png") no-repeat;
+}
+
+.resume-btn:active {
+    width: 24px;
+    height: 24px;
+    background: url("../files/ResumeOnClick.png") no-repeat;
+}
+
 
 .switch {
     --line: #b0b1be;
@@ -137,4 +165,5 @@ div.enterUsernameRectangle {
 
 .text {
     color: white;
+    user-select: none;
 }
