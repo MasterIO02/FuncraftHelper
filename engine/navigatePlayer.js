@@ -28,6 +28,10 @@ exports.navigatePlayer = async () => {
             var rushVictoryCountXPath = sharedVars.mode1RushVictoryCountXPath
             var skywarsGamesCountXPath = sharedVars.mode1SkywarsGamesCountXPath
             var skywarsVictoryCountXPath = sharedVars.mode1SkywarsVictoryCountXPath
+            var octogoneGamesCountXPath = sharedVars.mode1OctogoneGamesCountXPath
+            var octogoneVictoryCountXPath = sharedVars.mode1OctogoneVictoryCountXPath
+            var blitzGamesCountXPath = sharedVars.mode1OctogoneGamesCountXPath
+            var blitzVictoryCountXPath = sharedVars.mode1OctogoneVictoryCountXPath
         } else if (store.get('modeNumber') == "2") {
             var hikabrainGamesCountXPath = sharedVars.mode2HikabrainGamesCountXPath
             var rushGamesCountXPath = sharedVars.mode2RushGamesCountXPath
@@ -35,13 +39,17 @@ exports.navigatePlayer = async () => {
             var rushVictoryCountXPath = sharedVars.mode2RushVictoryCountXPath
             var skywarsGamesCountXPath = sharedVars.mode2SkywarsGamesCountXPath
             var skywarsVictoryCountXPath = sharedVars.mode2SkywarsVictoryCountXPath
+            var octogoneGamesCountXPath = sharedVars.mode2OctogoneGamesCountXPath
+            var octogoneVictoryCountXPath = sharedVars.mode2OctogoneVictoryCountXPath
+            var blitzGamesCountXPath = sharedVars.mode2OctogoneGamesCountXPath
+            var blitzVictoryCountXPath = sharedVars.mode2OctogoneVictoryCountXPath
         }
 
         sharedVars.exited = false
 
         const browser = await puppeteer.launch({ headless: store.get('headless'), executablePath: store.get('chromeLocation') })
         const page = await browser.newPage()
-        page.setUserAgent('FuncraftHelper-2.1.3')
+        page.setUserAgent(`FuncraftHelper-${sharedVars.fhVersion}`)
 
         if (store.get('adblocker') == true) {
             PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
@@ -63,6 +71,12 @@ exports.navigatePlayer = async () => {
         } else if (sharedVars.gameChosen == "Skywars") {
             await page.waitForXPath(skywarsGamesCountXPath).catch(() => errorLog())
             var element = await page.$x(skywarsGamesCountXPath)
+        } else if (sharedVars.gameChosen == "Octogone") {
+            await page.waitForXPath(octogoneGamesCountXPath).catch(() => errorLog())
+            var element = await page.$x(octogoneGamesCountXPath)
+        } else if (sharedVars.gameChosen == "Blitz") {
+            await page.waitForXPath(blitzGamesCountXPath).catch(() => errorLog())
+            var element = await page.$x(blitzGamesCountXPath)
         }
 
         let gamesCount = await page.evaluate(el => el.textContent, element[0])
@@ -77,6 +91,12 @@ exports.navigatePlayer = async () => {
         } else if (sharedVars.gameChosen == "Skywars") {
             await page.waitForXPath(skywarsVictoryCountXPath).catch(() => errorLog())
             var element = await page.$x(skywarsVictoryCountXPath)
+        } else if (sharedVars.gameChosen == "Octogone") {
+            await page.waitForXPath(octogoneVictoryCountXPath).catch(() => errorLog())
+            var element = await page.$x(octogoneVictoryCountXPath)
+        } else if (sharedVars.gameChosen == "Blitz") {
+            await page.waitForXPath(blitzVictoryCountXPath).catch(() => errorLog())
+            var element = await page.$x(blitzVictoryCountXPath)
         }
 
         let victoryCount = await page.evaluate(el => el.textContent, element[0])
@@ -86,6 +106,12 @@ exports.navigatePlayer = async () => {
         var roundedWinrate = Winrate.toFixed(2);
 
         if (sharedVars.inBenchmark == false) {
+            if (isNaN(roundedWinrate)) {
+                roundedWinrate = 0
+            }
+            if (gamesCount == "-") {
+                gamesCount = 0
+            }
             document.getElementById("mainTextArea").value += "(" + playerNumber + "/" + sharedVars.gameNumber + ") Le Winrate en " + sharedVars.gameChosen + " de " + playerUsername + " est de " + roundedWinrate + "%, en " + gamesCount + " parties.\n"
             textarea.scrollTop = textarea.scrollHeight;
         }
@@ -102,8 +128,7 @@ exports.navigatePlayer = async () => {
             if (sharedVars.checkingGamemode == false) {
                 checkGamemode()
             }
-        }
-        else if (sharedVars.playerEightFound == true && sharedVars.gameNumber == 8) {
+        } else if (sharedVars.playerEightFound == true && sharedVars.gameNumber == 8) {
             if (sharedVars.checkingGamemode == false) {
                 checkGamemode()
             }
@@ -116,6 +141,7 @@ exports.navigatePlayer = async () => {
                 checkGamemode()
             }
         }
+
 
     } catch (e) {
         document.getElementById("mainTextArea").value += (e) + "\n";
