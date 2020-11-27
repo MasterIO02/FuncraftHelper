@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title> FuncraftHelper - Premier démarrage </title>
+</head>
+
+<body>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <div id="firstLaunch" style="visibility: hidden">
+        <b class="text" style="position:fixed; top: 40px; left: 10px"> Bienvenue sur FuncraftHelper !
+        </b>
+        <p class="text" style="position:fixed; top: 80px; left: 10px"> Quel launcher sera utilisé pour jouer sur
+            Funcraft ?</p>
+
+        <label class="launcher-selector" for="radioAZLauncherBtn"> <img src="./files/AZicon.png" width="64" height="64"
+                style="position:fixed; top: 110px; left: 150px" draggable="false"> </label>
+
+        <label class="launcher-selector" for="radioOffiLauncherBtn"> <img src="./files/MCicon.png" width="64"
+                height="64" style="position:fixed; top: 110px; left: 375px" draggable="false"> </label>
+
+
+        <input id="radioAZLauncherBtn" type="radio" name="launcherRadio" style="position:fixed; top: 137px; left: 120px"
+            checked="checked">
+        <input id="radioOffiLauncherBtn" type="radio" name="launcherRadio"
+            style="position:fixed; top: 137px; left: 345px">
+
+        <p class="text" style="position:fixed; top: 184px; left: 137px">AZ Launcher</p>
+        <p class="text" style="position:fixed; top: 184px; left: 313px;">Launcher Minecraft Officiel
+        </p>
+
+        <p class="text" id="usernameText" style="position:fixed; top: 210px; left: 10px"></p>
+
+        <p class="text" id="launcherSelectedText" style="position:fixed; top: 230px; left: 10px"></p>
+        <i class="text" id="mcPathText" style="position:fixed; top: 253px; left: 10px"></i>
+
+        <textarea spellcheck="false" id="mcUsername" rows="1" cols="10"
+            style="font-family:Arial, Helvetica, sans-serif; resize: none; position: fixed; top: 300px; left: 20px;"></textarea>
+        <p class="text" style="position:fixed; top:298px; left:120px; user-select: none;"> Votre pseudo in-game (avec
+            les majuscules !) </p>
+
+
+        <b class="text" style="position:fixed; top: 330px; left: 10px; font-size: 11px">Assurez vous que Chrome soit
+            installé
+            avant
+            d'utiliser FuncraftHelper.</b>
+        <b class="text" style="position:fixed; top: 342px; left: 10px; font-size: 11px">Si vous utilisez un autre
+            launcher,
+            vous pouvez
+            modifier son emplacement dans les paramètres manuellement.</b>
+
+        <button id="end-first-launch" style="position:fixed; top: 360px; left: 265px">Terminé</button>
+    </div>
+</body>
+
+</html>

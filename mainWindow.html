@@ -27,20 +27,17 @@
     </div>
 
     <div id="mainObjects" class="mainObjects" style="visibility: hidden; opacity: 0; transition: opacity 500ms;">
-        <h4 style="position: fixed; top: 12px; left: 10px; user-select: none" class="text" id="currentTitle">
-            FuncraftHelper 2.1.3
-        </h4>
+        <h4 style="position: fixed; top: 12px; left: 10px; user-select: none" class="text" id="currentTitle"> </h4>
         <textarea id="mainTextArea" rows='21' cols='71' style="resize: none; position: fixed; left: 7px; top: 45px"
             disabled="disabled">
         </textarea>
     </div>
 
-
+    <script src="./engine/includeHTML.js"></script>
+    <div first-launch="firstLaunch.html"></div>
 
     <div id="settingsObjects" class="settingsObjects" style="visibility: hidden;">
-        <h4 class="text" style="position: fixed; top: 12px; left: 10px" class="text"> FuncraftHelper 2.1.3 -
-            Paramètres
-        </h4>
+        <h4 class="text" id="settingsTitle" style="position: fixed; top: 12px; left: 10px" class="text"> </h4>
 
         <label style="position: fixed; top: 50px; left: 40px" class="switch">
             <input type="checkbox" id="useMorgothAPISwitch">
@@ -51,7 +48,7 @@
         </label>
 
         <textarea spellcheck="false" hidden name="MorgothAPIKeyTextArea" id="MorgothAPIKeyTextArea" rows="1" cols="15"
-            style="-webkit-text-security: disc ; font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; top: 55px; left: 420px"></textarea>
+            style="-webkit-text-security: disc; font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; top: 55px; left: 420px"></textarea>
         <p hidden class="text" id="APIKeyText" style="position:fixed; top: 80px; left: 437px; user-select: none;">
             Votre
             clé d'API
@@ -163,7 +160,8 @@
 
 
         <div id="enterUsernameWindow" style="visibility: hidden">
-            <div class="background" style="position: fixed; width: 300px; height: 100px; left: 150px; top: 75px"> </div>
+            <div class="background" style="position: fixed; width: 300px; height: 100px; left: 150px; top: 75px">
+            </div>
             <button id="close-btn-enterUsernameWindow" style="position:fixed; left: 400px; top: 82px">passer</button>
             <textarea spellcheck="false" id="manualUsernameTextarea" rows="1" cols="15"
                 style="font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; user-select: none; left:230px; top:145px"></textarea>
@@ -177,7 +175,8 @@
 
 
         <div id="benchmarkObjects" style="visibility: hidden;">
-            <b class="text" id="bench-test-1" style="position:fixed; left: 50px; top: 60px; user-select: none;">Test 1 :
+            <b class="text" id="bench-test-1" style="position:fixed; left: 50px; top: 60px; user-select: none;">Test
+                1 :
                 En cours...</b>
             <b class="text" id="bench-test-2" style="position:fixed; left: 50px; top: 100px; user-select: none;">Test 2
                 : En cours...</b>
@@ -187,32 +186,45 @@
 
             <button id="close-benchmark-btn"
                 style="position:fixed; top: 220px; left: 275px; visibility: hidden;">Fermer</button>
-
         </div>
+
+
 </body>
 
 
 <script>
+    const Store = require('electron-store');
+    const store = new Store();
+    const sharedVars = require('./engine/sharedVars')
+
     // Initialisation GUI
     function initGUI() {
         const { BrowserWindow } = require('electron').remote
-        const Store = require('electron-store');
-        const store = new Store();
 
-        // Change la taille du mainTextArea sur Windows, la résolution est mal gérée
+        // Change la taille du mainTextArea, texte d'intro, et "?" des help-tip sur Windows
         if (store.get('systemType') == 'win32') {
             document.getElementById("mainTextArea").rows = 23
-        }
-
-        // Change l'emplacement du texte d'intro sur Windows
-        if (store.get('systemType') == 'win32') {
+            document.styleSheets[0].addRule('.help-tip:before', 'top: -2px;');
             document.getElementById("text-intro").style.top = "155px"
             document.getElementById("text-intro").style.left = "110px"
         }
 
-        // Change l'emplacement du "?" des help-tip des paramètres sur Windows
-        if (store.get('systemType') == 'win32') {
-            document.styleSheets[0].addRule('.help-tip:before', 'top: -2px;');
+        // Chargeur de thème
+        function loadCSS(load) {
+            const path = require('path')
+            var head = document.getElementsByTagName("head")[0]
+            var link = document.createElement("link")
+            link.rel = "stylesheet"
+            link.type = "text/css"
+            link.href = path.join(__dirname, "/css/" + load + ".css")
+            head.appendChild(link)
+        }
+
+        // Chargement du thème au démarrage
+        if (store.get('theme') == 'default') {
+            loadCSS("default")
+        } else if (store.get('theme') == 'dark') {
+            loadCSS("dark")
         }
 
         // Actions boutons principaux
@@ -236,6 +248,7 @@
 
         document.getElementById("settings-btn").addEventListener("click", (e) => {
             if (document.getElementById("settingsObjects").style.visibility == "hidden") {
+                document.getElementById("settingsTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Paramètres`
                 document.getElementById("mainObjects").style.visibility = "hidden"
                 document.getElementById("settingsObjects").style.visibility = "visible"
             } else {
@@ -266,7 +279,7 @@
         document.getElementById("benchmark-btn").addEventListener("click", (e) => {
             const pauseEngine = require('./engine/checkGame').pauseEngine
             pauseEngine()
-            document.getElementById("currentTitle").innerHTML = "FuncraftHelper 2.1.3 - Benchmark en cours"
+            document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Benchmark en cours`
             document.getElementById("currentTitle").style.visibility = "visible"
             document.getElementById("buttons").style.visibility = "hidden"
             document.getElementById("resume-btn").style.visibility = "hidden"
@@ -279,7 +292,7 @@
 
         // Bouton fermer benchmark
         document.getElementById("close-benchmark-btn").addEventListener("click", (e) => {
-            document.getElementById("currentTitle").innerHTML = "FuncraftHelper 2.1.3 - En pause"
+            document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - En pause`
             document.getElementById("currentTitle").style.visibility = "unset"
             document.getElementById("benchmarkObjects").style.visibility = "hidden"
             document.getElementById("mainObjects").style.visibility = "visible"
@@ -291,25 +304,6 @@
             document.getElementById("bench-test-3").innerHTML = "Test 3 : En cours..."
             document.getElementById("bench-test-all").innerHTML = ""
         })
-
-
-        // Chargeur de thème
-        function loadCSS(load) {
-            const path = require('path')
-            var head = document.getElementsByTagName("head")[0]
-            var link = document.createElement("link")
-            link.rel = "stylesheet"
-            link.type = "text/css"
-            link.href = path.join(__dirname, "/css/" + load + ".css")
-            head.appendChild(link)
-        }
-
-        // Chargement du thème au démarrage
-        if (store.get('theme') == 'default') {
-            loadCSS("default")
-        } else if (store.get('theme') == 'dark') {
-            loadCSS("dark")
-        }
 
         // Bouton thèmes
         document.getElementById("themes-btn").addEventListener("click", (e) => {
@@ -452,35 +446,34 @@
             setTimeout(function () {
                 document.getElementById("text-intro").style.opacity = 0
                 setTimeout(function () {
-                    document.getElementById("mainObjects").style.opacity = 1
+                    // Si c'est le premier démarrage on cache le mainTextArea sinon on l'affiche
                     document.getElementById("mainObjects").style.visibility = "visible"
-                    document.getElementById("buttons").style.visibility = "visible"
+                    document.getElementById("mainObjects").style.opacity = 1
+                    if (store.get('firstLaunch') == false) {
+                        document.getElementById("buttons").style.visibility = "visible"
+                    } else {
+                        document.getElementById("close-btn").style.visibility = "visible"
+                        document.getElementById("mainTextArea").style.visibility = "hidden"
+                        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Premier démarrage`
+                        document.getElementById("firstLaunch").style.visibility = "visible"
+                    }
                 }, 500);
             }, 3200);
         }
 
-
         // Fin scripts
         document.getElementById("mainTextArea").value = '           - https://github.com/MasterIO02/FuncraftHelper -\n';
         document.getElementById("mainTextArea").value += "      - Faites moi part de vos suggestions / bugs sur GitHub ! -\n\n"
-        document.getElementById("mainTextArea").value += "Redémarrez Minecraft toutes les heures pour de meilleures performances !\n";
-
         document.getElementById("manualUsernameTextarea").focus()
     }
     initGUI()
 
-
-
-
-
-
     // Check si une mise à jour est disponible
     const fetch = require("node-fetch");
-
     fetch("https://api.github.com/repos/MasterIO02/FuncraftHelper/releases/latest")
         .then(res => res.json())
         .then((json) => {
-            if (json.tag_name != "2.1.3" && json.documentation_url != "https://developer.github.com/v3/#rate-limiting") {
+            if (json.tag_name != sharedVars.fhVersion && json.documentation_url != "https://developer.github.com/v3/#rate-limiting") {
                 document.getElementById("mainTextArea").value += "\nLa version " + json.tag_name + " de FuncraftHelper est disponible !\n";
                 document.getElementById("mainTextArea").value += "Téléchargez-la pour disposer de corrections de bugs, optis, et nouvelles fonctionnalités !\n";
                 document.getElementById("mainTextArea").value += "https://github.com/MasterIO02/FuncraftHelper/releases\n\n";
@@ -488,17 +481,24 @@
         })
 
 
-    // Check si c'est la première fois que FH est lancé, si non, FH commencera la recherche
-    const Store = require('electron-store');
-    const store = new Store();
+    // Check si c'est la première fois que FH est lancé, si oui, on ouvre le tuto de configuration, si non, FH commencera la recherche
     if (store.get('firstLaunch') == undefined) {
-        document.getElementById("mainTextArea").value += "Il s'agit visiblement de la première fois que FuncraftHelper est lancé. Modifiez les paramètres puis relancez le programme !\n";
-        store.set('firstLaunch', false)
+        document.getElementById("mainObjects").style.visibility = "hidden"
+        const initFirstLaunch = require('./engine/firstLaunch').initFirstLaunch
+        includeHTML(function () {
+            initFirstLaunch()
+        }, "first-launch");
     } else {
         if (store.get('systemType') == "darwin") {
             document.getElementById("mainTextArea").value += "MacOS n'est pas officiellement supporté par FuncraftHelper. Merci de ne pas faire de rapport de bugs pour ce système.\n\n";
         } else if (store.get('systemType') == "win32") {
-            document.getElementById("mainTextArea").value += "Windows détecté. Lancez le programme en administrateur pour de bien meilleures performances.\n\n"
+            const isElevated = require('is-elevated');
+            (async () => {
+                var isAdmin = await isElevated()
+                if (isAdmin == false) {
+                    document.getElementById("mainTextArea").value += "Lancez FuncraftHelper en tant qu'administrateur pour possiblement de meilleures performances.\n\n"
+                }
+            })()
         }
         const checkGamemode = require('./engine/checkGame').checkGamemode
         checkGamemode()
@@ -508,11 +508,10 @@
     // Check si enter est appuyé, pour check les stats de quelqu'un manuellement
     document.getElementById("enterUsernameWindow").addEventListener("keypress", (e) => {
         if (e.key === 'Enter') {
-            const sharedVars = require('./engine/sharedVars')
             sharedVars.playerUsername = document.getElementById("manualUsernameTextarea").value
             document.getElementById("manualUsernameTextarea").value = ""
             document.getElementById("enterUsernameWindow").style.visibility = "hidden"
-            document.getElementById("mainTextArea").value += "Recherche des stats de " + sharedVars.playerUsername + "...\n"
+            document.getElementById("mainTextArea").value += `Recherche des stats de ${sharedVars.playerUsername} ...\n`
             if (store.get('useMorgothAPI') == false) {
                 const navigatePlayer = require('./engine/navigatePlayer').navigatePlayer
                 navigatePlayer()
@@ -522,6 +521,25 @@
             }
         }
     })
+
+    // Check toutes les 5 minutes si le fichier de log de Minecraft est trop gros pour continuer a bien fonctionner.
+    // Si il est plus gros que 75kb, un avertissement sera envoyé dans le mainTextArea pour demander a l'utilisateur de redémarrer Minecraft.
+    setInterval(function () {
+        const fs = require("fs")
+        fs.stat(store.get('logFileLocation'), (err, fileStats) => {
+            console.log(fileStats.size)
+            if (err) {
+                console.log(err)
+            } else {
+                if (fileStats.size >= 100000) {
+                    var fileSize = (fileStats.size / Math.pow(1024, 1)).toFixed(2)
+                    console.log(fileSize)
+                    document.getElementById("mainTextArea").value += `La taille du fichier de log de Minecraft est de ${fileSize}kb. Il est recommandé de relancer Minecraft pour de meilleures performances de FuncraftHelper.\n`
+                    textarea.scrollTop = textarea.scrollHeight
+                }
+            }
+        })
+    }, 300000)
 
 </script>
 

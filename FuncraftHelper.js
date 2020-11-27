@@ -1,10 +1,12 @@
 const electron = require('electron')
 const { config } = require('process')
 const { app, BrowserWindow } = electron
-const Store = require('electron-store');
-const store = new Store();
-const os = require('os');
-const { NONAME } = require('dns');
+const Store = require('electron-store')
+const store = new Store()
+const os = require('os')
+
+const setDiscordRPC = require('./engine/rpc').setDiscordRPC
+setDiscordRPC()
 
 // Déclaration des fenêtres
 app.on('ready', function () {
@@ -23,12 +25,10 @@ app.on('ready', function () {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     })
+
 })
 
-
-
 // Init config si premier lancement
-
 if (store.get('firstLaunch') == undefined) {
     store.set('systemType', os.platform())
     store.set('useMorgothAPI', false)
@@ -64,5 +64,4 @@ if (store.get('pauseEngine') == undefined) {
 if (store.get('adblocker') == undefined) {
     store.set('adblocker', false)
 }
-
 
