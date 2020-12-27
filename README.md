@@ -8,7 +8,7 @@ https://discord.gg/QfbZBPA
 
 FuncraftHelper est un logiciel crée avec Electron permettant de voir les statistiques des joueurs contre qui vous jouez sur Funcraft en temps réel et automatiquement.
 Fonctionne avec tous les launchers Minecraft, dont le AZ Launcher. **Aucune modifications du client du jeu n'est effectué !**
-Actuellement, Le Rush 1v1, 2v2, 4v4 sont supportés, ainsi que tous les modes de jeu Hikabrain, et le Skywars 12 et 16 joueurs.
+Actuellement, Le Rush 1v1, 2v2, 4v4 sont supportés, ainsi que tous les modes de jeu Hikabrain, Blitz, Octogone, et le Skywars 12 et 16 joueurs.
 N'hésitez pas à envoyer vos retours de bugs, suggestions ou autres dans la section "issues" dans GitHub !
 Fonctionne sous Windows et Linux. Les joueurs Mac devront modifier compiler FH d'eux même.
 
@@ -39,16 +39,10 @@ Si vous voulez compiler FuncraftHelper depuis le code source, vous pouvez import
 Le seul moyen (à l'heure actuelle) de minimiser ce problème est de relancer Minecraft pour réinitialiser le fichier de log.
 
 # Roadmap / Améliorations notées
-- Optimiser et intégrer tout les modes de jeu de Funcraft.
-- Ajouter une rich presence Discord
 - Ajouter une fonction de détection du mode de navigation automatique au lancement de FuncraftHelper (?)
 - Pouvoir régler la vitesse de vérification du fichier de log suivant la puissance du PC utilisé pour détécter le plus de joueurs possible
-- Demander launcher utilisé au premier démarrage
-- Faire une blacklist pour ne pas rechercher les stats de certaines personnes (comme ses amis)
-- Remanier totalement l'interface principale
 - Faire un mode full manuel
 - Rendre possible la création de thèmes personnalisés
 - Sauvegarder les logs pour plus tard créer des statistiques des joueurs que vous aurez affrontés, les résultats, etc..
 - Pouvoir envoyer le statut de FuncraftHelper dans un channel discord (pour par exemple mettre ses alliés d'un groupe au courant des stats des adversaires sans qu'ils aient a utiliser FuncraftHelper)
-- Faire des bases de données hors-ligne pour alléger les ordinateurs les moins puissants qui n'auront pas à aller sur le site de Funcraft à chaque fois qu'il doit rechercher un joueur
 - Mettre en place un serveur permettant de mettre des notes aux joueurs rencontrés que les autres utilisateurs de FuncraftHelper pourront voir et améliorer
