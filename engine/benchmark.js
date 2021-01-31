@@ -3,10 +3,9 @@ exports.launchBenchmark = async () => {
     const Store = require('electron-store');
     const store = new Store();
     sharedVars.playerUsername = store.get('username')
-    sharedVars.playerNumber = 2
-    sharedVars.gameChosen = "Hikabrain"
+    sharedVars.playerNumber = 0
     sharedVars.inBenchmark = true
-    console.log(sharedVars.playerUsername)
+    sharedVars.gameChosen = "Rush"
 
     var start = performance.now()
     await benchmark()

@@ -1,700 +1,1117 @@
 const Store = require('electron-store')
 const store = new Store()
 const sharedVars = require('./sharedVars')
-const getLastLine = require('./readlastline.js').getLastLine
 const logFileLocation = (store.get('logFileLocation'))
-var lastLogLine = ""
-var textarea = document.getElementById('mainTextArea')
-
-
-exports.checkGamemode = async () => {
-  checkGamemode()
-}
-
-function checkGamemode() {
-  store.set('rpStatus', 'Attente du mode de jeu')
-  resetVars()
-  sharedVars.engineIsPaused = false
-  document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-  textarea.scrollTop = textarea.scrollHeight
-  sharedVars.checkingGamemode = true
-
-  // Loop primaire
-  let waitPrimaryLoop = setInterval(function () { primaryLoop() }, 5)
-  async function primaryLoop() {
-    getLastLine(logFileLocation, 2)
-      .then((lastLine) => lastLogLine = lastLine)
-
-    switch (true) {
-
-      case sharedVars.engineIsPaused:
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("Vous avez quitt") && !sharedVars.exited:
-        document.getElementById("mainTextArea").value += "Vous avez quitté le jeu.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.exited = true
-        resetVars()
-        stopPrimaryLoop()
-        checkGamemode()
-        break;
-
-      case lastLogLine.includes("hikabrain10#2x1") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Hikabrain"
-        sharedVars.gameType = "single"
-        sharedVars.gameNumber = 2
-        sharedVars.exited = false
-        sharedVars.playerNotFound = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche du joueur adverse...`
-        document.getElementById("mainTextArea").value += "Hikabrain 1v1 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("rushFASTMDTPAC10#2x1") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Rush"
-        sharedVars.gameType = "single"
-        sharedVars.gameNumber = 2
-        sharedVars.exited = false
-        sharedVars.playerNotFound = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche du joueur adverse...`
-        document.getElementById("mainTextArea").value += "Rush 1v1 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("hikabrain5#2x2") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Hikabrain"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 4
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Hikabrain 2v2 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("rushFASTMDT4#2x2") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") || lastLogLine.includes("rushMDT2x2") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Rush"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 4
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Rush 2v2 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("hikabrain2x4") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Hikabrain"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 8
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Hikabrain 4v4 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("rushFASTMDT2x4") || lastLogLine.includes("rushMDT2x4") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Rush"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 8
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Rush 4v4 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("skywars12") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Skywars"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 12
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Skywars solo choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("skywars8x2") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Skywars"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 16
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Skywars duos choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("mmaPAC16") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Octogone"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 16
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Octogone choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("blitz2x2") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Blitz"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 4
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Blitz 2v2 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-
-      case lastLogLine.includes("blitz2x4") && !lastLogLine.includes("Partie") && !lastLogLine.includes("<>") && !lastLogLine.includes("groupe") && !sharedVars.findUnameCalled:
-        sharedVars.gameChosen = "Blitz"
-        sharedVars.gameType = "multiple"
-        sharedVars.gameNumber = 8
-        sharedVars.exited = false
-        findUname()
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - recherche des joueurs adverses...`
-        document.getElementById("mainTextArea").value += "Blitz 4v4 choisi.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.findUnameCalled = true
-        sharedVars.checkingGamemode = false
-        stopPrimaryLoop()
-        break;
-    }
-  }
-
-  function stopPrimaryLoop() {
-    clearInterval(waitPrimaryLoop)
-  }
-
-}
-
-// Début findUname
 const navigatePlayer = require('./navigatePlayer').navigatePlayer
+const reloadOwnStats = require('./navigatePlayer').reloadOwnStats
 const navigateMorgothAPI = require('./navigateMorgothAPI').navigateMorgothAPI
+const fs = require("fs")
+const md5 = require('md5')
+var nodeConsole = require('console')
+var myConsole = new nodeConsole.Console(process.stdout, process.stderr)
+const readLastLines = require('read-last-lines');
+const regexConnectedPlayerName = new RegExp('[^+]*$')
+const regexDisconnectedPlayerName = new RegExp('[^-]*$')
+var line1, line2, line3, line1old, line2old, line3old, lastLogLine
+const checkLineShootcraft = require('./shootcraft').checkLineShootcraft
 
-function findUname() {
-  const regexPlayerName = new RegExp('[^+]*$')
-  let findUnameStop = setInterval(function () { findUname() }, 1)
+exports.logFileWatcher = async () => {
+  logFileWatcher()
+}
 
-  async function findUname() {
-    getLastLine(logFileLocation, 3)
-      .then((lastLine) => lastLogLine = lastLine)
+function logFileWatcher() {
+  store.set('rpStatus', 'Attente du mode de jeu')
+  document.getElementById("state").innerHTML = `Attente du choix de mode de jeu`
 
-    switch (true) {
-      case sharedVars.engineIsPaused:
-        stopFindUname()
-        break;
-
-      case lastLogLine.includes("(2/"):
-        if (!sharedVars.playerThreeDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 3/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerThreeFound = false
-          sharedVars.playerThreeDisconnected = true
+  let md5Previous = null
+  try {
+    fs.watchFile(logFileLocation, {
+      interval: 1
+    }, (event, filename) => {
+      if (filename) {
+        const md5Current = md5(fs.readFileSync(logFileLocation))
+        if (md5Current === md5Previous) {
+          return;
         }
-        if (!sharedVars.playerTwoFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 2
-            document.getElementById("mainTextArea").value += `(2/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerTwoFound = true
-            sharedVars.playerThreeDisconnected = false
-            if (store.get('useMorgothAPI') && sharedVars.gameNumber == 2) {
-              navigateMorgothAPI()
-            } else {
-              navigatePlayer()
-            }
-          } else if (sharedVars.gameNumber == 2) {
-            ownPlayerConnected()
-          }
-          if (sharedVars.gameNumber == 2) {
-            document.getElementById("mainTextArea").value += "Game complète.\n"
-            if (store.get('pauseEngine')) {
-              pauseEngine()
-            } else {
-              document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-              textarea.scrollTop = textarea.scrollHeight
-              stopFindUname()
-              checkGamemode()
-            }
-          }
-        }
-        break;
-
-
-
-      case lastLogLine.includes("(3/"):
-        if (!sharedVars.playerFourDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 4/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerFourFound = false
-          sharedVars.playerFourDisconnected = true
-        }
-        if (!sharedVars.playerThreeFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 3
-            document.getElementById("mainTextArea").value += `(3/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerThreeFound = true
-            sharedVars.playerFourDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(4/"):
-        if (!sharedVars.playerFiveDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 5/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerFiveFound = false
-          sharedVars.playerFiveDisconnected = true
-        }
-        if (!sharedVars.playerFourFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 4
-            document.getElementById("mainTextArea").value += `(4/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerFourFound = true
-            sharedVars.playerFiveDisconnected = false
-            navigatePlayer()
-          }
-          if (sharedVars.gameNumber == 4) {
-            document.getElementById("mainTextArea").value += "Game complète.\n"
-            if (store.get('pauseEngine')) {
-              pauseEngine()
-            } else {
-              document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-              textarea.scrollTop = textarea.scrollHeight
-              stopFindUname()
-              checkGamemode()
-            }
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(5/"):
-        if (!sharedVars.playerSixDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 6/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerSixFound = false
-          sharedVars.playerSixDisconnected = true
-        }
-        if (!sharedVars.playerFiveFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 5
-            document.getElementById("mainTextArea").value += `(5/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerFiveFound = true
-            sharedVars.playerSixDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(6/"):
-        if (!sharedVars.playerSevenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 7/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerSevenFound = false
-          sharedVars.playerSevenDisconnected = true
-        }
-        if (!sharedVars.playerSixFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 6
-            document.getElementById("mainTextArea").value += `(6/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerSixFound = true
-            sharedVars.playerSevenDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(7/"):
-        if (!sharedVars.playerEightDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 8/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerEightFound = false
-          sharedVars.playerEightDisconnected = true
-        }
-        if (!sharedVars.playerSevenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 7
-            document.getElementById("mainTextArea").value += `(7/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerSevenFound = true
-            sharedVars.playerEightDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(8/"):
-        if (!sharedVars.playerNineDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 9/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerNineFound = false
-          sharedVars.playerNineDisconnected = true
-        }
-        if (!sharedVars.playerEightFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 8
-            document.getElementById("mainTextArea").value += `(8/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerEightFound = true
-            sharedVars.playerNineDisconnected = false
-            navigatePlayer()
-          }
-          if (sharedVars.gameNumber == 8) {
-            document.getElementById("mainTextArea").value += "Game complète.\n"
-            if (store.get('pauseEngine')) {
-              pauseEngine()
-            } else {
-              document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-              textarea.scrollTop = textarea.scrollHeight
-              stopFindUname()
-              checkGamemode()
-            }
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(9/"):
-        if (!sharedVars.playerTenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 10/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerTenFound = false
-          sharedVars.playerTenDisconnected = true
-        }
-        if (!sharedVars.playerNineFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 9
-            document.getElementById("mainTextArea").value += `(9/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerNineFound = true
-            sharedVars.playerTenDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(10/"):
-        if (!sharedVars.playerElevenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 11/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerElevenFound = false
-          sharedVars.playerElevenDisconnected = true
-
-        }
-        if (!sharedVars.playerTenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 10
-            document.getElementById("mainTextArea").value += `(10/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerTenFound = true
-            sharedVars.playerElevenDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(11/"):
-        if (!sharedVars.playerTwelveDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 12/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerTwelveFound = false
-          sharedVars.playerTwelveDisconnected = true
-        }
-        if (!sharedVars.playerElevenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 11
-            document.getElementById("mainTextArea").value += `(11/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerElevenFound = true
-            sharedVars.playerTwelveDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(12/"):
-        if (!sharedVars.playerThirteenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 13/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerThirteenFound = false
-          sharedVars.playerThirteenDisconnected = true
-        }
-        if (!sharedVars.playerTwelveFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 12
-            document.getElementById("mainTextArea").value += `(12/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerTwelveFound = true
-            sharedVars.playerThirteenDisconnected = false
-            navigatePlayer()
-          }
-          if (sharedVars.gameNumber == 12) {
-            document.getElementById("mainTextArea").value += "Game complète.\n"
-            if (store.get('pauseEngine')) {
-              pauseEngine()
-            } else {
-              document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-              textarea.scrollTop = textarea.scrollHeight
-              stopFindUname()
-              checkGamemode()
-            }
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(13/"):
-        if (!sharedVars.playerFourteenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 14/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerFourteenFound = false
-          sharedVars.playerFourteenDisconnected = true
-        }
-        if (!sharedVars.playerThirteenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 13
-            document.getElementById("mainTextArea").value += `(13/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerThirteenFound = true
-            sharedVars.playerFourteenDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(14/"):
-        if (!sharedVars.playerFifteenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 15/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerFifteenFound = false
-          sharedVars.playerFifteenDisconnected = true
-        }
-        if (!sharedVars.playerFourteenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 14
-            document.getElementById("mainTextArea").value += `(14/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerFourteenFound = true
-            sharedVars.playerFifteenDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(15/"):
-        if (!sharedVars.playerSixteenDisconnected && lastLogLine.includes("déconnecté")) {
-          document.getElementById("mainTextArea").value += `Le joueur 16/${sharedVars.gameNumber} s'est déconnecté.\n`
-          textarea.scrollTop = textarea.scrollHeight
-          sharedVars.playerSixteenFound = false
-          sharedVars.playerSixteenDisconnected = true
-        }
-        if (!sharedVars.playerFifteenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 15
-            document.getElementById("mainTextArea").value += `(15/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerFifteenFound = true
-            sharedVars.playerSixteenDisconnected = false
-            navigatePlayer()
-          }
-        }
-        break;
-
-      case lastLogLine.includes("(16/"):
-        if (!sharedVars.playerSixteenFound) {
-          playerName = `${regexPlayerName.exec(lastLogLine)}`.trimLeft().split(" ")[0]
-          if (playerName != store.get('username') && !playerName.includes("[")) {
-            sharedVars.playerNumber = 16
-            document.getElementById("mainTextArea").value += `(16/${sharedVars.gameNumber}) Le joueur ${playerName} s'est connecté à la game.\n`
-            textarea.scrollTop = textarea.scrollHeight
-            sharedVars.playerUsername = playerName
-            sharedVars.findUnameCalled = false
-            sharedVars.playerSixteenFound = true
-            navigatePlayer()
-          }
-          if (sharedVars.gameNumber == 16) {
-            document.getElementById("mainTextArea").value += "Game complète.\n"
-            if (store.get('pauseEngine')) {
-              pauseEngine()
-            } else {
-              document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-              textarea.scrollTop = textarea.scrollHeight
-              stopFindUname()
-              checkGamemode()
-            }
-          }
-        }
-        break;
-
-
-      case sharedVars.exited:
-        stopFindUname()
-        break;
-
-      case lastLogLine.includes("Vous avez quitt") && !sharedVars.exited:
-        document.getElementById("mainTextArea").value += "Vous avez quitté le jeu.\n"
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.exited = true
-        resetVars()
-        stopFindUname()
-        checkGamemode()
-        break;
-    }
-
-    function ownPlayerConnected() {
-      if (!sharedVars.playerNotFound) {
-        if (store.get('manualEnter') && sharedVars.gameNumber == 2) {
-          sharedVars.playerNumber = 2
-          document.getElementById("mainTextArea").value += "Le second joueur n'a pas pu être trouvé automatiquement car vous avez été connecté sur un lobby ou il était déjà présent.\nEcrivez son pseudo manuellement pour rechercher ses stats.\n"
-          document.getElementById("enterUsernameWindow").style.visibility = "visible"
-          document.getElementById("manualUsernameTextarea").focus()
-        } else {
-          document.getElementById("mainTextArea").value += "Le second joueur n'a pas pu être trouvé automatiquement car vous avez été connecté sur un lobby ou il était déjà présent.\n"
-        }
-        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Attente du choix de mode de jeu`
-        textarea.scrollTop = textarea.scrollHeight
-        sharedVars.playerNotFound = true
-        sharedVars.findUnameCalled = false
-        stopFindUname()
-        checkGamemode()
+        md5Previous = md5Current
+        getLines()
       }
+    })
+  } catch (e) {
+    document.getElementById('state').innerHTML = "Lancez FuncraftHelper après avoir lancé Minecraft."
+    document.getElementById("error-notification").style.opacity = 1
+    document.getElementById("error-notification-text").innerHTML += `Un problème est survenu : lancez FuncraftHelper après Minecraft - ${e}`
+  }
+}
+
+function splitLines(t) {
+  return t.split(/\r\n|\r|\n/);
+}
+
+async function getLines() {
+  await readLastLines.read(logFileLocation, 3)
+    .then((lines) => lastLogLine = lines);
+
+  var lastLogLinesArray = splitLines(lastLogLine)
+  line1 = lastLogLinesArray[0]
+  line2 = lastLogLinesArray[1]
+  line3 = lastLogLinesArray[2]
+
+  if (line1 != line1old && line1 != line2old && line1 != line3old) {
+    checkLine(line1)
+    if(sharedVars.gameChosen == "Shootcraft") {
+      checkLineShootcraft(line1)
     }
   }
-  function stopFindUname() {
-    clearInterval(findUnameStop)
+  if (line2 != line1old && line2 != line2old && line2 != line3old) {
+    checkLine(line2)
+    if(sharedVars.gameChosen == "Shootcraft") {
+      checkLineShootcraft(line2)
+    }
+  }
+  if (line3 != line1old && line3 != line2old && line3 != line3old) {
+    checkLine(line3)
+    if(sharedVars.gameChosen == "Shootcraft") {
+      checkLineShootcraft(line3)
+    }
+  }
+
+  line1old = line1
+  line2old = line2
+  line3old = line3
+}
+
+function launchNavigation() {
+  sharedVars.playerUsername = playerName
+  sharedVars.playerPosition.push({
+    username: playerName,
+    position: sharedVars.playerNumber
+  })
+  myConsole.log(sharedVars.playerPosition)
+  navigatePlayer()
+}
+
+
+async function checkLine(line) {
+  console.log(line)
+  switch (true) {
+    case line.includes("Vous avez quitt"):
+      document.getElementById("state").style.visibility = "visible"
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = ""
+      sharedVars.noState = false
+      sharedVars.playerCount = 0
+      break;
+
+    case line.includes("rejoignez hikabrain10#2x1") || line.includes("file HikaBrain - 1v1"):
+      sharedVars.gameChosen = "Hikabrain"
+      sharedVars.gameType = "single"
+      sharedVars.gameNumber = 2
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Hikabrain 1v1')
+      document.getElementById("2player1Username").innerHTML = store.get('username')
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("twoPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Hikabrain (1v1)"
+      if (store.get('ownStatsSearchFrequency') == "1") {
+        sharedVars.playerNumber = 1
+        sharedVars.playerUsername = store.get('username')
+        navigatePlayer()
+      } else {
+        sharedVars.playerNumber = 1
+        reloadOwnStats()
+      }
+      break;
+
+    case line.includes("rejoignez rushFASTMDTPAC10#2x1") || line.includes("file Rush FAST-MDT ᛫ 1v1"):
+      sharedVars.gameChosen = "Rush"
+      sharedVars.gameType = "single"
+      sharedVars.gameNumber = 2
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Rush 1v1')
+      document.getElementById("2player1Username").innerHTML = store.get('username')
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("twoPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Rush (1v1)"
+      if (store.get('ownStatsSearchFrequency') == "1") {
+        sharedVars.playerNumber = 1
+        sharedVars.playerUsername = store.get('username')
+        navigatePlayer()
+      } else {
+        sharedVars.playerNumber = 1
+        reloadOwnStats()
+      }
+      break;
+
+    case line.includes("rejoignez hikabrain5#2x2") || line.includes("file HikaBrain - 2v2"):
+      sharedVars.gameChosen = "Hikabrain"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 4
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Hikabrain 2v2')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Hikabrain (2v2)"
+      break;
+
+    case line.includes("rejoignez rushFASTMDT4#2x2") || line.includes("rejoignez rushMDT2x2") || line.includes("file Rush FAST-MDT ᛫ 2v2") || line.includes("file Rush MDT ᛫ 2v2"):
+      sharedVars.gameChosen = "Rush"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 4
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Rush 2v2')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Rush (2v2)"
+      break;
+
+    case line.includes("rejoignez hikabrain2x4") || line.includes("file HikaBrain - 4v4"):
+      sharedVars.gameChosen = "Hikabrain"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 8
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Hikabrain 4v4')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Hikabrain (4v4)"
+      break;
+
+    case line.includes("rejoignez rushFASTMDT2x4") || line.includes("rejoignez rushMDT2x4") || line.includes("file Rush FAST-MDT ᛫ 4v4") || line.includes("file Rush MDT ᛫ 4v4"):
+      sharedVars.gameChosen = "Rush"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 8
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Rush 4v4')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Rush (4v4)"
+      break;
+
+    case line.includes("rejoignez skywars12") || line.includes("file SkyWars Solo"):
+      sharedVars.gameChosen = "Skywars"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 12
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Skywars Solo')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Skywars (solo)"
+      break;
+
+    case line.includes("skywars8x2") || line.includes("file SkyWars 8eq x 2j"):
+      sharedVars.gameChosen = "Skywars"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 16
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Skywars Duos')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Skywars (duos)"
+      break;
+
+    case line.includes("rejoignez mmaPAC16") || line.includes("file Octogone Solo"):
+      sharedVars.gameChosen = "Octogone"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 16
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Octogone')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Octogone"
+      break;
+
+
+
+    case line.includes("rejoignez blitz2x2") || line.includes("file Blitz 2v2"):
+      sharedVars.gameChosen = "Blitz"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 4
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Blitz 2v2')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Blitz (2v2)"
+      break;
+
+    case line.includes("rejoignez blitz2x4") || line.includes("file Blitz 4v4"):
+      sharedVars.gameChosen = "Blitz"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 8
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Blitz 4v4')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Blitz (4v4)"
+      break;
+
+    case line.includes("rejoignez shootcraft10") || line.includes("file ShootCraft Solo"):
+      sharedVars.gameChosen = "Shootcraft"
+      sharedVars.gameType = "multiple"
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      sharedVars.playerCount = 0
+      resetUi()
+      store.set('rpStatus', 'Shootcraft')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Shootcraft"
+      break;
+
+      /*-----------------------------------
+       *  Check player join/left
+       *---------------------------------*/
+
+    case line.includes("(1/"):
+      if (line.includes("déconnecté")) {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(2/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          document.getElementById("2player2Username").innerHTML = playerName
+          document.getElementById("4player2Username").innerHTML = playerName
+          document.getElementById("8player2Username").innerHTML = playerName
+          document.getElementById("16player2Username").innerHTML = playerName
+          document.getElementById("2player2Stats").innerHTML = "En cours..."
+          document.getElementById("4player2Stats").innerHTML = "En cours..."
+          document.getElementById("8player2Stats").innerHTML = "En cours..."
+          document.getElementById("16player2Stats").innerHTML = "En cours..."
+          sharedVars.playerOneShouldBeMe = true
+          reloadOwnStats()
+          if (store.get('ownStatsSearchFrequency') == "1") {
+            sharedVars.playerUsername = store.get('username')
+            navigatePlayer()
+          }
+          sharedVars.playerNumber = 2
+          sharedVars.playerUsername = playerName
+          sharedVars.playerPosition.push({
+            username: playerName,
+            position: sharedVars.playerNumber
+          })
+          console.log(sharedVars.playerPosition)
+
+          if (store.get('useMorgothAPI') && sharedVars.gameNumber == 2) {
+            navigateMorgothAPI()
+          } else {
+            navigatePlayer()
+          }
+        } else if (sharedVars.gameNumber == 2) {
+          ownPlayerConnected()
+        } else if (sharedVars.playerPosition.indexOf(store.get('username')) == -1) {
+          myConsole.log(sharedVars.playerPosition.indexOf(store.get('username')))
+          if (store.get('ownStatsSearchFrequency') == "1") {
+            sharedVars.playerUsername = store.get('username')
+            navigatePlayer()
+          }
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 2
+          })
+          sharedVars.playerNumber = 2
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+
+
+    case line.includes("(3/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player3Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("8player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("4player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 3
+            document.getElementById("16player3Username").innerHTML = playerName
+            document.getElementById("8player3Username").innerHTML = playerName
+            document.getElementById("4player3Username").innerHTML = playerName
+            document.getElementById("4player3Stats").innerHTML = "En cours..."
+            document.getElementById("8player3Stats").innerHTML = "En cours..."
+            document.getElementById("16player3Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+
+        } else {
+          sharedVars.playerNumber = 3
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 3
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(4/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player4Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("8player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 4
+            document.getElementById("16player4Username").innerHTML = playerName
+            document.getElementById("8player4Username").innerHTML = playerName
+            document.getElementById("4player4Username").innerHTML = playerName
+            document.getElementById("4player4Stats").innerHTML = "En cours..."
+            document.getElementById("8player4Stats").innerHTML = "En cours..."
+            document.getElementById("16player4Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+
+        } else {
+          sharedVars.playerNumber = 4
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 4
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(5/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player5Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("8player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 5
+            document.getElementById("16player5Username").innerHTML = playerName
+            document.getElementById("8player5Username").innerHTML = playerName
+            document.getElementById("8player5Stats").innerHTML = "En cours..."
+            document.getElementById("16player5Stats").innerHTML = "En cours..."
+
+            launchNavigation()
+          }
+
+        } else {
+          sharedVars.playerNumber = 5
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 5
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(6/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player6Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("8player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 6
+            document.getElementById("16player6Username").innerHTML = playerName
+            document.getElementById("8player6Username").innerHTML = playerName
+            document.getElementById("8player6Stats").innerHTML = "En cours..."
+            document.getElementById("16player6Stats").innerHTML = "En cours..."
+
+            launchNavigation()
+          }
+
+        } else {
+          sharedVars.playerNumber = 6
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 6
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(7/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player7Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("8player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 7
+            document.getElementById("16player7Username").innerHTML = playerName
+            document.getElementById("8player7Username").innerHTML = playerName
+            document.getElementById("8player7Stats").innerHTML = "En cours..."
+            document.getElementById("16player7Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+
+        } else {
+          sharedVars.playerNumber = 7
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 7
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(8/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player8Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                eval(`document.getElementById("8player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 8
+            document.getElementById("16player8Username").innerHTML = playerName
+            document.getElementById("8player8Username").innerHTML = playerName
+            document.getElementById("8player8Stats").innerHTML = "En cours..."
+            document.getElementById("16player8Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 8
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 8
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(9/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player9Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 9
+            document.getElementById("16player9Username").innerHTML = playerName
+            document.getElementById("16player9Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 9
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 9
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(10/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player10Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 10
+            document.getElementById("16player10Username").innerHTML = playerName
+            document.getElementById("16player10Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 10
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 10
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(11/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player11Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 11
+            document.getElementById("16player11Username").innerHTML = playerName
+            document.getElementById("16player11Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 11
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 11
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(12/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player12Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 12
+            document.getElementById("16player12Username").innerHTML = playerName
+            document.getElementById("16player12Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 12
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 12
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(13/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player13Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 13
+            document.getElementById("16player13Username").innerHTML = playerName
+            document.getElementById("16player13Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 13
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 13
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(14/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player14Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 14
+            document.getElementById("16player14Username").innerHTML = playerName
+            document.getElementById("16player14Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 14
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 14
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(15/"):
+      if (!line.includes("déconnecté")) {
+        playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        if (playerName != store.get('username') && !playerName.includes("[")) {
+          if (document.getElementById("16player15Stats").innerHTML != "Non trouvé") {
+            for (let i = 1; i < 16; i++) {
+              if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+                console.log(`for stopped at ${i}`)
+                sharedVars.playerNumber = i
+                eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+                launchNavigation()
+                return;
+              }
+            }
+          } else {
+            sharedVars.playerNumber = 15
+            document.getElementById("16player15Username").innerHTML = playerName
+            document.getElementById("16player15Stats").innerHTML = "En cours..."
+            launchNavigation()
+          }
+        } else {
+          sharedVars.playerNumber = 15
+          sharedVars.playerPosition.push({
+            username: store.get('username'),
+            position: 15
+          })
+          reloadOwnStats()
+        }
+      } else {
+        playerName = `${regexDisconnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+        var disconnectedPlayerPosition = (sharedVars.playerPosition.find(playerPosition => playerPosition.username === playerName).position)
+        console.log(disconnectedPlayerPosition)
+        sharedVars.playerPosition = sharedVars.playerPosition.filter(playerPosition => playerPosition.username !== playerName)
+        eval(`resetPlayer${disconnectedPlayerPosition}Ui()`)
+      }
+      break;
+
+    case line.includes("(16/"):
+      playerName = `${regexConnectedPlayerName.exec(line)}`.trimLeft().split(" ")[0]
+      if (playerName != store.get('username') && !playerName.includes("[")) {
+        if (document.getElementById("16player16Stats").innerHTML != "Non trouvé") {
+          for (let i = 1; i < 16; i++) {
+            if (eval(`document.getElementById("16player${i}Stats").innerHTML == "Non trouvé"`)) {
+              console.log(`for stopped at ${i}`)
+              sharedVars.playerNumber = i
+              eval(`document.getElementById("16player${i}Username").innerHTML = playerName`)
+              launchNavigation()
+              return;
+            }
+          }
+        } else {
+          sharedVars.playerNumber = 16
+          document.getElementById("16player16Username").innerHTML = playerName
+          document.getElementById("16player16Stats").innerHTML = "En cours..."
+          launchNavigation()
+        }
+      } else {
+        sharedVars.playerNumber = 16
+        sharedVars.playerPosition.push({
+          username: store.get('username'),
+          position: 16
+        })
+        reloadOwnStats()
+      }
+      break;
   }
 }
 
-// oui cette fonction est moche mais bon j'y peut rien faut être sûr que toutes les variables sont reset
-function resetVars() {
-  sharedVars.playerNotFound = false
-  sharedVars.playerTwoFound = false
-  sharedVars.playerThreeFound = false
-  sharedVars.playerFourFound = false
-  sharedVars.playerFiveFound = false
-  sharedVars.playerSixFound = false
-  sharedVars.playerSevenFound = false
-  sharedVars.playerEightFound = false
-  sharedVars.playerNineFound = false
-  sharedVars.playerTenFound = false
-  sharedVars.playerElevenFound = false
-  sharedVars.playerTwelveFound = false
-  sharedVars.playerThirteenFound = false
-  sharedVars.playerFourteenFound = false
-  sharedVars.playerFifteenFound = false
-  sharedVars.playerSixteenFound = false
-  sharedVars.playerTwoDisconnected = false
-  sharedVars.playerThreeDisconnected = false
-  sharedVars.playerFourDisconnected = false
-  sharedVars.playerFiveDisconnected = false
-  sharedVars.playerSixDisconnected = false
-  sharedVars.playerSevenDisconnected = false
-  sharedVars.playerEightDisconnected = false
-  sharedVars.playerNineDisconnected = false
-  sharedVars.playerTenDisconnected = false
-  sharedVars.playerElevenDisconnected = false
-  sharedVars.playerTwelveDisconnected = false
-  sharedVars.playerThirteenDisconnected = false
-  sharedVars.playerFourteenDisconnected = false
-  sharedVars.playerFifteenDisconnected = false
-  sharedVars.playerSixteenDisconnected = false
-  sharedVars.findUnameFinished = false
-  sharedVars.findUnameCalled = false
+function ownPlayerConnected() {
+  if (store.get('manualEnter') && sharedVars.gameNumber == 2) {
+    sharedVars.playerNumber = 2
+    document.getElementById("enterUsernameWindow").style.visibility = "visible"
+    document.getElementById("manualUsernameTextarea").focus()
+  }
 }
 
-
-exports.pauseEngine = async () => {
-  pauseEngine()
+function resetPlayer1Ui() {
+  document.getElementById("2player1Image").src = "../files/empty-170x170.png"
+  document.getElementById("2player1Username").innerHTML = "Joueur 1"
+  document.getElementById("2player1Stats").innerHTML = "En cours..."
+  document.getElementById('4player1Image').src = "../files/empty-170x170.png"
+  document.getElementById('4player1Username').innerHTML = "Joueur 1"
+  document.getElementById('4player1Stats').innerHTML = "Non trouvé"
+  document.getElementById('4player1AdditionalDetails').innerHTML = ""
+  document.getElementById('8player1Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player1Username').innerHTML = "Joueur 1"
+  document.getElementById('8player1Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player1Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player1Username').innerHTML = "Joueur 1"
+  document.getElementById('16player1Stats').innerHTML = "Non trouvé"
 }
 
-function pauseEngine() {
-  sharedVars.engineIsPaused = true
-  store.set('rpStatus', 'En pause')
-  document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - En pause`
-  resetVars()
-  document.getElementById("pause-btn").style.visibility = "hidden"
-  document.getElementById("resume-btn").style.visibility = "visible"
+function resetPlayer2Ui() {
+  document.getElementById("2player2Image").src = "../files/empty-170x170.png"
+  document.getElementById("2player2Username").innerHTML = "Joueur 2"
+  document.getElementById("2player2Stats").innerHTML = "En cours..."
+  document.getElementById('4player2Image').src = "../files/empty-170x170.png"
+  document.getElementById('4player2Username').innerHTML = "Joueur 2"
+  document.getElementById('4player2Stats').innerHTML = "Non trouvé"
+  document.getElementById('4player2AdditionalDetails').innerHTML = ""
+  document.getElementById('8player2Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player2Username').innerHTML = "Joueur 2"
+  document.getElementById('8player2Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player2Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player2Username').innerHTML = "Joueur 2"
+  document.getElementById('16player2Stats').innerHTML = "Non trouvé"
+}
 
+function resetPlayer3Ui() {
+  document.getElementById('4player3Image').src = "../files/empty-170x170.png"
+  document.getElementById('4player3Stats').innerHTML = "Non trouvé"
+  document.getElementById('4player3Username').innerHTML = "Joueur 3"
+  document.getElementById('4player3AdditionalDetails').innerHTML = ""
+  document.getElementById('8player3Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player3Username').innerHTML = "Joueur 3"
+  document.getElementById('8player3Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player3Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player3Username').innerHTML = "Joueur 3"
+  document.getElementById('16player3Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer4Ui() {
+  document.getElementById('4player4Image').src = "../files/empty-170x170.png"
+  document.getElementById('4player4Username').innerHTML = "Joueur 4"
+  document.getElementById('4player4Stats').innerHTML = "Non trouvé"
+  document.getElementById('4player4AdditionalDetails').innerHTML = ""
+  document.getElementById('8player4Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player4Username').innerHTML = "Joueur 4"
+  document.getElementById('8player4Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player4Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player4Username').innerHTML = "Joueur 4"
+  document.getElementById('16player4Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer5Ui() {
+  document.getElementById('8player5Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player5Username').innerHTML = "Joueur 5"
+  document.getElementById('8player5Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player5Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player5Username').innerHTML = "Joueur 5"
+  document.getElementById('16player5Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer6Ui() {
+  document.getElementById('8player6Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player6Username').innerHTML = "Joueur 6"
+  document.getElementById('8player6Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player6Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player6Username').innerHTML = "Joueur 6"
+  document.getElementById('16player6Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer7Ui() {
+  document.getElementById('8player7Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player7Username').innerHTML = "Joueur 7"
+  document.getElementById('8player7Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player7Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player7Username').innerHTML = "Joueur 7"
+  document.getElementById('16player7Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer8Ui() {
+  document.getElementById('8player8Image').src = "../files/empty-170x170.png"
+  document.getElementById('8player8Username').innerHTML = "Joueur 8"
+  document.getElementById('8player8Stats').innerHTML = "Non trouvé"
+  document.getElementById('16player8Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player8Username').innerHTML = "Joueur 8"
+  document.getElementById('16player8Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer9Ui() {
+  document.getElementById('16player9Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player9Username').innerHTML = "Joueur 9"
+  document.getElementById('16player9Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer10Ui() {
+  document.getElementById('16player10Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player10Username').innerHTML = "Joueur 10"
+  document.getElementById('16player10Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer11Ui() {
+  document.getElementById('16player11Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player11Username').innerHTML = "Joueur 11"
+  document.getElementById('16player11Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer12Ui() {
+  document.getElementById('16player12Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player12Username').innerHTML = "Joueur 12"
+  document.getElementById('16player12Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer13Ui() {
+  document.getElementById('16player13Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player13Username').innerHTML = "Joueur 13"
+  document.getElementById('16player13Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer14Ui() {
+  document.getElementById('16player14Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player14Username').innerHTML = "Joueur 14"
+  document.getElementById('16player14Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer15Ui() {
+  document.getElementById('16player15Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player15Username').innerHTML = "Joueur 15"
+  document.getElementById('16player15Stats').innerHTML = "Non trouvé"
+}
+
+function resetPlayer16Ui() {
+  document.getElementById('16player16Image').src = "../files/empty-170x170.png"
+  document.getElementById('16player16Username').innerHTML = "Joueur 16"
+  document.getElementById('16player16Stats').innerHTML = "Non trouvé"
+}
+
+function resetUi() {
+  resetPlayer1Ui()
+  resetPlayer2Ui()
+  resetPlayer3Ui()
+  resetPlayer4Ui()
+  resetPlayer5Ui()
+  resetPlayer6Ui()
+  resetPlayer7Ui()
+  resetPlayer8Ui()
+  resetPlayer9Ui()
+  resetPlayer10Ui()
+  resetPlayer11Ui()
+  resetPlayer12Ui()
+  resetPlayer13Ui()
+  resetPlayer14Ui()
+  resetPlayer15Ui()
+  resetPlayer16Ui()
+}
+
+exports.resetUi = async () => {
+  resetUi()
 }

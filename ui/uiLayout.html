@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title> FuncraftHelper </title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <!-- les ids commencent par un chiffre pour savoir dans quel layout appartient l'élément (2 = layout 2 joueurs, 4 = layout 4J etc) -->
+    <!-- le deuxième chiffre correspond a l'emplacement du joueur sur l'interface (doit pouvoir être changé dynamiquement par le moteur) -->
+    <div id="uiLayout" style="opacity: unset;">
+        <p id="gameName" style="position: fixed; top:372px; left:10px;" class="text"></p>
+
+        <div id="twoPlayersLayout" style="visibility: hidden;">
+            <img id="2player1Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:60px; left:50px; width: 128px; height: 128px;" class="image-head">
+            <img id="2player2Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:225px; left:50px; width: 128px; height: 128px;" class="image-head">
+
+            <h2 id="2player1Username" style="position: fixed; top:55px; left:190px;" class="text">Joueur 1</h2>
+            <h2 id="2player2Username" style="position: fixed; top:220px; left:190px;" class="text">Joueur 2</h2>
+
+            <h3 id="2player1Stats" style="position: fixed; top:90px; left:190px;" class="text">Non trouvé
+            </h3>
+            <h3 id="2player2Stats" style="position: fixed; top:255px; left:190px;" class="text">Non trouvé</h3>
+        </div>
+
+
+
+        <div id="fourPlayersLayout" style="visibility: hidden;">
+            <img id="4player1Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:60px; left:20px; width: 92px; height: 92px;" class="image-head">
+            <img id="4player2Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:235px; left:20px; width:92px; height: 92px;" class="image-head">
+            <img id="4player3Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:60px; left:300px; width: 92px; height: 92px;" class="image-head">
+            <img id="4player4Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:235px; left:300px; width: 92px; height: 92px;" class="image-head">
+
+            <h3 id="4player1Username" style="position: fixed; top:152px; left:20px;" class="text">Joueur 1</h3>
+            <h3 id="4player2Username" style="position: fixed; top:327px; left:20px;" class="text">Joueur 2</h3>
+            <h3 id="4player3Username" style="position: fixed; top:152px; left:300px;" class="text">Joueur 3</h3>
+            <h3 id="4player4Username" style="position: fixed; top:327px; left:300px;" class="text">Joueur 4</h3>
+
+            <h4 id="4player1Stats" style="position: fixed; top:62px; left:115px;" class="text">Non trouvé </h4>
+            <h4 id="4player2Stats" style="position: fixed; top:236px; left:115px;" class="text">Non trouvé </h4>
+            <h4 id="4player3Stats" style="position: fixed; top:62px; left:395px;" class="text">Non trouvé </h4>
+            <h4 id="4player4Stats" style="position: fixed; top:236px; left:395px;" class="text">Non trouvé </h4>
+
+            <h4 id="4player1AdditionalDetails" style="position: fixed; top:175px; left:20px; font-size: -1;"
+                class="text">
+            </h4>
+            <h4 id="4player2AdditionalDetails" style="position: fixed; top:350px; left:20px; font-size: -1;"
+                class="text">
+            </h4>
+            <h4 id="4player3AdditionalDetails" style="position: fixed; top:175px; left:300px; font-size: -1;"
+                class="text">
+            </h4>
+            <h4 id="4player4AdditionalDetails" style="position: fixed; top:350px; left:300px; font-size: -1;"
+                class="text">
+            </h4>
+        </div>
+
+        <div id="eightPlayersLayout" style="visibility: hidden;">
+            <img id="8player1Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:45px; left:20px; width: 76px; height: 76px;" class="image-head">
+            <img id="8player2Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:126px; left:20px; width:76px; height: 76px;" class="image-head">
+            <img id="8player3Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:207px; left:20px; width: 76px; height: 76px;" class="image-head">
+            <img id="8player4Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:288px; left:20px; width: 76px; height: 76px;" class="image-head">
+            <img id="8player5Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:45px; left:300px; width: 76px; height: 76px;" class="image-head">
+            <img id="8player6Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:126px; left:300px; width:76px; height: 76px;" class="image-head">
+            <img id="8player7Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:207px; left:300px; width: 76px; height: 76px;" class="image-head">
+            <img id="8player8Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:288px; left:300px; width: 76px; height: 76px;" class="image-head">
+
+            <h3 id="8player1Username" style="position: fixed; top:45px; left:101px;" class="text">Joueur 1</h3>
+            <h3 id="8player2Username" style="position: fixed; top:126px; left:101px;" class="text">Joueur 2</h3>
+            <h3 id="8player3Username" style="position: fixed; top:207px; left:101px;" class="text">Joueur 3</h3>
+            <h3 id="8player4Username" style="position: fixed; top:288px; left:101px;" class="text">Joueur 4</h3>
+            <h3 id="8player5Username" style="position: fixed; top:45px; left:381px;" class="text">Joueur 5</h3>
+            <h3 id="8player6Username" style="position: fixed; top:126px; left:381px;" class="text">Joueur 6</h3>
+            <h3 id="8player7Username" style="position: fixed; top:207px; left:381px;" class="text">Joueur 7</h3>
+            <h3 id="8player8Username" style="position: fixed; top:288px; left:381px;" class="text">Joueur 8</h3>
+
+            <h4 id="8player1Stats" style="position: fixed; top:68px; left:101px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player2Stats" style="position: fixed; top:149px; left:101px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player3Stats" style="position: fixed; top:230px; left:101px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player4Stats" style="position: fixed; top:311px; left:101px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player5Stats" style="position: fixed; top:68px; left:381px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player6Stats" style="position: fixed; top:149px; left:381px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player7Stats" style="position: fixed; top:230px; left:381px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+            <h4 id="8player8Stats" style="position: fixed; top:311px; left:381px; line-height: 17px;" class="text">
+                Non trouvé </h4>
+
+        </div>
+
+        <div id="sixteenPlayersLayout" style="visibility: hidden;">
+            <img id="16player1Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:45px; left:20px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player2Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:86px; left:20px; width:36px; height: 36px;" class="image-head">
+            <img id="16player3Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:127px; left:20px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player4Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:168px; left:20px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player5Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:209px; left:20px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player6Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:250px; left:20px; width:36px; height: 36px;" class="image-head">
+            <img id="16player7Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:291px; left:20px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player8Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:332px; left:20px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player9Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:45px; left:300px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player10Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:86px; left:300px; width:36px; height: 36px;" class="image-head">
+            <img id="16player11Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:127px; left:300px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player12Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:168px; left:300px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player13Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:209px; left:300px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player14Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:250px; left:300px; width:36px; height: 36px;" class="image-head">
+            <img id="16player15Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:291px; left:300px; width: 36px; height: 36px;" class="image-head">
+            <img id="16player16Image" src="../files/empty-170x170.png"
+                style="position: fixed; top:332px; left:300px; width: 36px; height: 36px;" class="image-head">
+
+
+            <h5 id="16player1Username" style="position: fixed; top:44px; left:65px;" class="text">Joueur 1</h5>
+            <h5 id="16player2Username" style="position: fixed; top:85px; left:65px;" class="text">Joueur 2</h5>
+            <h5 id="16player3Username" style="position: fixed; top:126px; left:65px;" class="text">Joueur 3</h5>
+            <h5 id="16player4Username" style="position: fixed; top:167px; left:65px;" class="text">Joueur 4</h5>
+            <h5 id="16player5Username" style="position: fixed; top:208px; left:65px;" class="text">Joueur 5</h5>
+            <h5 id="16player6Username" style="position: fixed; top:249px; left:65px;" class="text">Joueur 6</h5>
+            <h5 id="16player7Username" style="position: fixed; top:290px; left:65px;" class="text">Joueur 7</h5>
+            <h5 id="16player8Username" style="position: fixed; top:331px; left:65px;" class="text">Joueur 8</h5>
+            <h5 id="16player9Username" style="position: fixed; top:44px; left:345px;" class="text">Joueur 9</h5>
+            <h5 id="16player10Username" style="position: fixed; top:85px; left:345px;" class="text">Joueur 10</h5>
+            <h5 id="16player11Username" style="position: fixed; top:126px; left:345px;" class="text">Joueur 11</h5>
+            <h5 id="16player12Username" style="position: fixed; top:167px; left:345px;" class="text">Joueur 12</h5>
+            <h5 id="16player13Username" style="position: fixed; top:208px; left:345px;" class="text">Joueur 13
+            </h5>
+            <h5 id="16player14Username" style="position: fixed; top:249px; left:345px;" class="text">Joueur 14
+            </h5>
+            <h5 id="16player15Username" style="position: fixed; top:290px; left:345px;" class="text">Joueur 15</h5>
+            <h5 id="16player16Username" style="position: fixed; top:331px; left:345px;" class="text">Joueur 16</h5>
+
+
+            <h5 id="16player1Stats" style="position: fixed; top:64px; left:65px; line-height: 17px;" class="text">
+                Non trouvé</h5>
+            <h5 id="16player2Stats" style="position: fixed; top:105px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player3Stats" style="position: fixed; top:146px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player4Stats" style="position: fixed; top:187px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player5Stats" style="position: fixed; top:228px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player6Stats" style="position: fixed; top:269px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player7Stats" style="position: fixed; top:310px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player8Stats" style="position: fixed; top:351px; left:65px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player9Stats" style="position: fixed; top:64px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player10Stats" style="position: fixed; top:105px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player11Stats" style="position: fixed; top:146px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player12Stats" style="position: fixed; top:187px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player13Stats" style="position: fixed; top:228px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player14Stats" style="position: fixed; top:269px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player15Stats" style="position: fixed; top:310px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+            <h5 id="16player16Stats" style="position: fixed; top:351px; left:345px; line-height: 17px;" class="text">
+                Non trouvé </h5>
+        </div>
+
+
+    </div>
+</body>
+
+
+</html>

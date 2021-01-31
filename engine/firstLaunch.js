@@ -24,14 +24,17 @@ exports.initFirstLaunch = async () => {
 
     document.getElementById("end-first-launch").addEventListener("click", (e) => {
         store.set('firstLaunch', false)
+        store.set('useServerScript', true)
+        document.getElementById("useServerScriptSwitch").checked = true
         document.getElementById("firstLaunch").style.visibility = "hidden"
         document.getElementById("mainObjects").style.visibility = "visible"
-        document.getElementById("mainTextArea").style.visibility = "unset"
+        document.getElementById("state").style.visibility = "visible"
         document.getElementById("buttons").style.visibility = "visible"
         document.getElementById("usernameTextArea").value = store.get('username')
         document.getElementById("logFileLocationTextArea").value = store.get('logFileLocation')
-        const checkGamemode = require('./checkGame').checkGamemode
-        checkGamemode()
+        document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion}`
+        const logFileWatcher = require('../engine/checkGame').logFileWatcher
+        logFileWatcher()
     })
 
     document.getElementById("mcUsername").addEventListener("input", (e) => {

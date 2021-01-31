@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title> FuncraftHelper </title>
+    <meta charset="utf-8">
+</head>
+
+
+<body>
+    <div id="settingsObjects" class="settingsObjects" style="visibility: hidden;">
+        <button id="advanced-options-btn"
+            style="position:fixed; top: 350px; left: 225px; text-align: center; width: 125px;"></button>
+        <h4 class="text" id="settingsTitle" style="position: fixed; top: 12px; left: 10px" class="text"> </h4>
+        <p class="text" style="position:fixed; left: 10px; top: 375px; font-size: small; font-style: oblique;">
+            Système : </p>
+        <p class="text" id="systemType"
+            style="position:fixed; left: 70px; top: 375px; font-size: small; font-style: oblique;">
+            Inconnu </p>
+
+
+        <div id="basic-options">
+            <input type="text" spellcheck="false" name="usernameTextArea" id="usernameTextArea"
+                style="position: fixed; top: 50px; left: 40px; width: 190px;">
+            <p class="text" style="position:fixed; top:49px; left:242px;"> Pseudo in-game </p>
+
+
+            <label style="position: fixed; top: 78px; left: 60px" class="switch">
+                <input type="checkbox" id="useMorgothAPISwitch">
+                <div>
+                    <p class="text" style="position:fixed; top: 80px; left: 142px;"> Utiliser l'API de LordMorgoth </p>
+                    <span></span>
+                </div>
+            </label>
+
+            <input type="text" spellcheck="false" hidden name="MorgothAPIKeyTextArea" id="MorgothAPIKeyTextArea"
+                style="-webkit-text-security: disc; position: fixed; top: 55px; left: 420px; width: 140px;">
+            <p hidden class="text" id="APIKeyText" style="position:fixed; top: 80px; left: 437px;">
+                Votre
+                clé d'API
+            </p>
+
+            <label style="position: fixed; top: 110px; left: 60px;" class="switch">
+                <input type="checkbox" id="toggleAdblocker">
+                <div>
+                    <p class="text" style="position:fixed; top: 110px; left: 140px"> Activer l'adblocker
+                    </p>
+                    <span></span>
+                </div>
+            </label>
+
+            <label style="position: fixed; top: 110px; left: 60px;" class="switch">
+                <input type="checkbox" id="manualEnter">
+                <div>
+                    <p class="text" style="position:fixed; top: 140px; left: 140px"> Mode manuel si ennemi non trouvé
+                    </p>
+                    <span></span>
+                </div>
+            </label>
+
+            <button id="benchmark-btn" style="position:fixed; top: 114px; left: 445px;">Benchmark</button>
+
+            <p style="position: fixed; top:175px; left:20px" class="text">Rechercher ses propres stats</p>
+            <select id="selectSearchFrequecy" name="selectSearchFrequency"
+                style="position:fixed; top:177px; left:235px;">
+                <option id="freqOpt1" value="1">A chaque game (non recommandé)</option>
+                <option id="freqOpt2" value="2">A chaque démarrage de FuncraftHelper</option>
+                <option id="freqOpt3" value="3">1 fois par jour</option>
+                <option id="freqOpt4" value="4">1 fois par semaine</option>
+                <option id="freqOpt5" value="5">Jamais</option>
+            </select>
+
+            <div class="help-tip" style="position: fixed; top: 142px; left: 403px">
+                <p>Si cette option est activée et qu'un joueur ennemi n'est pas détecté automatiquement, une fenêtre
+                    s'ouvrira pour entrer son pseudo manuellement. (MODES 1v1 SEULEMENT)</p>
+            </div>
+
+            <div class="help-tip" style="position: fixed; top: 112px; left: 275px;">
+                <p> L'adblocker fait gagner en performances (-1 seconde de recherche environ) mais
+                    peut causer des problèmes de chargement infini, et ne rémunère pas Funcraft :(</p>
+            </div>
+
+            <div class="help-tip" style="position: fixed; top: 82px; left: 352px">
+                <p>L'API de LordMorgoth permet d'avoir une recherche de statistiques quasi instantanée. Rendez vous sur
+                    lordmorgoth.net pour demander une clé (c'est gratuit !, MODES 1v1 SEULEMENT)</p>
+            </div>
+
+            <div class="help-tip" style="position: fixed; top: 115px; left: 525px;">
+                <p> Le benchmark permet de savoir en combien de temps votre ordinateur sera capable d'aller chercher les
+                    statistiques des adversaires.</p>
+            </div>
+
+        </div>
+
+
+
+
+        <div id="advanced-options" style="visibility: hidden">
+            <label style="position: fixed; top: 50px; left: 60px;" class="switch">
+                <input type="checkbox" id="headlessSwitch">
+                <div>
+                    <p class="text" style="position:fixed; left: 140px; top: 52px"> Mode headless </p>
+                    <span></span>
+                </div>
+            </label>
+
+
+            <label style="position: fixed; top: 50px; left: 60px;" class="switch">
+                <input type="checkbox" id="useServerScriptSwitch">
+                <div>
+                    <p class="text" style="position:fixed; left: 140px; top: 82px"> Utiliser les scripts serveur </p>
+                    <span></span>
+                </div>
+            </label>
+
+
+            <input type="text" spellcheck="false" name="logFileLocationTextArea" id="logFileLocationTextArea"
+                style="position: fixed; top: 330px; left: 45px; width: 490px">
+            <p class="text" style="position:fixed; top: 305px; left: 140px;"> Emplacement du
+                latest.log
+                de Minecraft
+            </p>
+
+            <input type="text" spellcheck="false" name="chromeLocationTextArea" id="chromeLocationTextArea"
+                style="position: fixed; top: 280px; left: 45px; width: 490px">
+            <p class="text" style="position:fixed; top: 255px; left: 140px;"> Emplacement de Chrome
+                ou
+                Chromium </p>
+            <div class="help-tip" style="position: fixed; top: 250px; left: 432px">
+                <p>Un navigateur basé sur Chromium est nécessaire pour rechercher les stats. Chrome et Vivaldi ont étés
+                    testés et sont fonctionnels.</p>
+            </div>
+
+            <b class="text" style="position:fixed; left: 435px; top: 50px"> Mode de navigation </b>
+            <input id="radioMode1btn" type="radio" name="modeRadio" value="1"
+                style="position:fixed; top: 80px; left: 435px">
+            <input id="radioMode2btn" type="radio" name="modeRadio" value="2"
+                style="position:fixed; top: 80px; left: 510px">
+            <p class="text" style="position:fixed; left: 450px; top: 75px"> Mode 1 </p>
+            <p class="text" style="position:fixed; left: 525px; top: 75px"> Mode 2 </p>
+
+            <div class="help-tip" style="position: fixed; top: 54px; left: 255px">
+                <p>Si cette option est désactivée, la vérification des statistiques sera faite en étant visible. Par
+                    défaut
+                    activée donc invisible.</p>
+            </div>
+            <div class="help-tip" style="position: fixed; top: 84px; left: 335px">
+                <p>Les scripts serveur récoltent des données sur comment FuncraftHelper est utilisé, ainsi que votre
+                    config système. Ils permettent parfois de fixer certains bugs.</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

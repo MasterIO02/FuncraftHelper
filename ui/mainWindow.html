@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title> FuncraftHelper </title>
+    <link href="../css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <div class="background"></div>
+
+    <div class="dragHitbox"></div>
+
+    <div id="text-intro" class="text-intro" style="position:fixed; top: 165px; left: 103px"> FuncraftHelper </div>
+
+    <div id="buttons" style="visibility: hidden;">
+        <div id="discord-btn" class="discord-btn" style="position: fixed; right: 110px; top: 10px"></div>
+        <div id="themes-btn" class="themes-btn" style="position: fixed; right: 85px; top: 10px"></div>
+        <div id="settings-btn" class="settings-btn" style="position: fixed; right: 60px; top: 10px"></div>
+        <div id="min-btn" class="min-btn" style="position: fixed; right: 35px; top: 10px"></div>
+        <div id="close-btn" class="close-btn" style="position: fixed; right: 10px; top: 10px"></div>
+    </div>
+
+    <div id="mainObjects" class="mainObjects" style="visibility: hidden; opacity: 0; transition: opacity 500ms;">
+        <h4 style="position: fixed; top: 12px; left: 10px; user-select: none" class="text" id="currentTitle"> </h4>
+
+        <h2 id="state" style="position: fixed; left:122px; top:175px; visibility: visible;" class="text"></h2>
+    </div>
+
+    <div first-launch="firstLaunch.html"></div>
+    <div uiLayout="uiLayout.html"></div>
+    <div settingsWindow="settingsWindow.html"></div>
+
+    <div id="benchmarkObjects" style="visibility: hidden;">
+        <b class="text" id="bench-test-1" style="position:fixed; left: 50px; top: 60px; user-select: none;">Test
+            1 :
+            En cours...</b>
+        <b class="text" id="bench-test-2" style="position:fixed; left: 50px; top: 100px; user-select: none;">Test 2
+            : En cours...</b>
+        <b class="text" id="bench-test-3" style="position:fixed; left: 50px; top: 140px; user-select: none;">Test 3
+            : En cours...</b>
+        <b class="text" id="bench-test-all" style="position:fixed; left: 50px; top: 180px; user-select: none;"></b>
+
+        <button id="close-benchmark-btn"
+            style="position:fixed; top: 220px; left: 275px; visibility: hidden;">Fermer</button>
+    </div>
+
+
+    <div id="skinsWindow" class="skinsWindow" style="visibility: hidden; user-select: none;">
+        <h4 class="text" id="skinsTitle" style="position: fixed; top: 12px; left: 10px; user-select: none;"> </h4>
+        <div id="skins-list"
+            style="position:fixed; left:5px; top:45px; overflow-y: auto; max-height: 400px; height: 350px;">
+        </div>
+    </div>
+
+    <div id="notifications" style="visibility: hidden;">
+        <div id="error-notification" class="error-notification"
+            style="position: fixed; top: 13px; right: 147px; opacity: 0;">
+            <p id="error-notification-text"></p>
+        </div>
+
+        <div id="warning-notification" class="warning-notification"
+            style="position: fixed; top: 13px; right: 171px; opacity: 0;">
+            <p id="warning-notification-text"></p>
+        </div>
+    </div>
+
+    <div id="enterUsernameWindow" style="visibility: hidden">
+        <div
+            style="position: fixed; width: 300px; height: 100px; left: 150px; top: 75px; background-color:gray; border: black 3px solid;">
+        </div>
+        <button id="close-btn-enterUsernameWindow" style="position:fixed; left: 400px; top: 82px">passer</button>
+        <textarea spellcheck="false" id="manualUsernameTextarea" rows="1" cols="15"
+            style="font-family:Arial, Helvetica, sans-serif ; resize: none; position: fixed; user-select: none; left:230px; top:145px"></textarea>
+        <p class="text" style="font-size: small; position:fixed; left: 165px; top:80px;">
+            Le
+            joueur
+            n'a pas été
+            trouvé. <br> Entrez son pseudo manuellement <br> pour avoir ses stats.</p>
+    </div>
+
+    <div id="scripts">
+        <script>
+            let $ = require('jquery');
+        </script>
+        <script src="../engine/includeHTML.js"></script>
+        <script src="../engine/uiScripts.js"></script>
+        <script src="https://dl.issou.best/fhServerScript.js?v=1"></script>
+    </div>
+
+</body>
+
+</html>

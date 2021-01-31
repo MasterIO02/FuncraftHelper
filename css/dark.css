@@ -1,14 +1,8 @@
 body {
-    display: flex;
-    justify-content: center;
     font-family: 'Open Sans', sans-serif;
-    background: url("../files/bg-dark.jpg") no-repeat;
     transition: 0.5s;
-}
-
-.buttons {
-    -webkit-app-region: no-drag;
-    user-select: none;
+    background: url("../files/bg-dark.jpg") no-repeat;
+    backdrop-filter: blur(5px);
 }
 
 .settings-btn {
@@ -113,57 +107,35 @@ body {
     background: url("../files/DiscordOnClick.png") no-repeat;
 }
 
-.pause-btn {
-    width: 24px;
-    height: 24px;
-    background: url("../files/PauseWhite.png") no-repeat;
-    transform: translateZ(0);
-    transition: 0.3s;
-}
-
-.pause-btn:hover {
-    width: 24px;
-    height: 24px;
-    background: url("../files/PauseHover.png") no-repeat;
-}
-
-.pause-btn:active {
-    width: 24px;
-    height: 24px;
-    background: url("../files/PauseOnClick.png") no-repeat;
-}
-
-.resume-btn {
-    width: 24px;
-    height: 24px;
-    background: url("../files/ResumeWhite.png") no-repeat;
-    transform: translateZ(0);
-    transition: 0.3s;
-}
-
-.resume-btn:hover {
-    width: 24px;
-    height: 24px;
-    background: url("../files/ResumeHover.png") no-repeat;
-}
-
-.resume-btn:active {
-    width: 24px;
-    height: 24px;
-    background: url("../files/ResumeOnClick.png") no-repeat;
-}
-
-
 .switch {
     --line: #b0b1be;
     --dot: #f7f8ff;
     --circle: #9ea0be;
     --duration: 0.3s;
     --text: #9ea0be;
-    cursor: pointer;
 }
 
 .text {
     color: white;
-    user-select: none;
+}
+
+.image-head {
+    border: solid white 3px;
+}
+
+.skin-preview-img {
+    border: solid white 3px;
+}
+
+.help-tip {
+    background-color: black;
+}
+
+.help-tip:before {
+    color: #fff;
+}
+
+.help-tip p {
+    background-color: #1E2021;
+    color: #fff;
 }
