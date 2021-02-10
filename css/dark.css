@@ -139,3 +139,8 @@ body {
     background-color: #1E2021;
     color: #fff;
 }
+
+.visibilityBox {
+    opacity: 0;
+    background-color: black;
+}

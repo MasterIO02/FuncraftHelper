@@ -59,19 +59,19 @@ async function getLines() {
 
   if (line1 != line1old && line1 != line2old && line1 != line3old) {
     checkLine(line1)
-    if(sharedVars.gameChosen == "Shootcraft") {
+    if (sharedVars.gameChosen == "Shootcraft") {
       checkLineShootcraft(line1)
     }
   }
   if (line2 != line1old && line2 != line2old && line2 != line3old) {
     checkLine(line2)
-    if(sharedVars.gameChosen == "Shootcraft") {
+    if (sharedVars.gameChosen == "Shootcraft") {
       checkLineShootcraft(line2)
     }
   }
   if (line3 != line1old && line3 != line2old && line3 != line3old) {
     checkLine(line3)
-    if(sharedVars.gameChosen == "Shootcraft") {
+    if (sharedVars.gameChosen == "Shootcraft") {
       checkLineShootcraft(line3)
     }
   }
@@ -96,13 +96,13 @@ async function checkLine(line) {
   console.log(line)
   switch (true) {
     case line.includes("Vous avez quitt"):
-      document.getElementById("state").style.visibility = "visible"
+      /*document.getElementById("state").style.visibility = "visible"
       document.getElementById("twoPlayersLayout").style.visibility = "hidden"
       document.getElementById("fourPlayersLayout").style.visibility = "hidden"
       document.getElementById("eightPlayersLayout").style.visibility = "hidden"
       document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
       document.getElementById("gameName").innerHTML = ""
-      sharedVars.noState = false
+      sharedVars.noState = false*/
       sharedVars.playerCount = 0
       break;
 

@@ -78,6 +78,9 @@ if (store.get('adblocker') == undefined) {
 if (store.get('ownStatsSearchFrequency') == undefined) {
     store.set('ownStatsSearchFrequency', 3)
 }
+if (store.get('visibilityBox') == undefined) {
+    store.set('visibilityBox', false)
+}
 
 fs.access(`${app.getPath('userData')}/fhData/skins`, function (error) {
     if (error) {

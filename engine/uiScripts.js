@@ -214,11 +214,12 @@ setInterval(function () {
  *---------------------------------*/
 
 const startSettingsScript = require('../engine/settingsWindowScript.js').startSettingsScript
+includeHTML(function () {}, "uiLayout");
+
 includeHTML(function () {
     startSettingsScript()
 }, "settingsWindow");
 
-includeHTML(function () {}, "uiLayout");
 
 
 document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion}`

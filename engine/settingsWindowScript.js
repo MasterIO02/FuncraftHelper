@@ -164,6 +164,26 @@ exports.startSettingsScript = async () => {
         }
     })
 
+
+    // Script pour switch visibilityBox
+    if (store.get('visibilityBox') == true) {
+        document.getElementById("visibilityBox").checked = true
+        $(".visibilityBox").css("opacity", "0.6")
+    } else {
+        document.getElementById("visibilityBox").checked = false
+        $(".visibilityBox").css("opacity", "0")
+    }
+
+    document.getElementById("visibilityBox").addEventListener("click", (e) => {
+        if (store.get('visibilityBox') == true) {
+            store.set('visibilityBox', false)
+            $(".visibilityBox").css("opacity", "0")
+        } else {
+            store.set('visibilityBox', true)
+            $(".visibilityBox").css("opacity", "0.6")
+        }
+    })
+
     // Script pour textarea username
     document.getElementById("usernameTextArea").value = store.get('username')
     document.getElementById("usernameTextArea").addEventListener("input", (e) => {
