@@ -20,7 +20,13 @@ function loadCSS(load) {
     if (load == "dark" || load == "default") {
         link.href = path.join(__dirname, "../css/" + load + ".css")
     } else {
-        link.href = load + ".css"
+        if (fs.existsSync(load + ".css")) {
+            link.href = load + ".css"
+        } else {
+            console.log("Erreur de chargement du skin. Chargement du skin par défaut.")
+            store.set('theme', 'default')
+            loadCSS('default')
+        }
     }
     head.appendChild(link)
 }
