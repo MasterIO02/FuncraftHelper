@@ -8,8 +8,7 @@ exports.startSettingsScript = async () => {
         document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Benchmark en cours`
         document.getElementById("currentTitle").style.visibility = "visible"
         document.getElementById("buttons").style.visibility = "hidden"
-        document.getElementById("settingsObjects").style.visibility = "hidden"
-        document.getElementById("basic-options").style.visibility = "hidden"
+        document.getElementById("settingsWindow").style.visibility = "hidden"
         document.getElementById("notifications").style.visibility = "hidden"
         document.getElementById("mainObjects").style.visibility = "hidden"
         document.getElementById("benchmarkObjects").style.visibility = "visible"
@@ -21,7 +20,6 @@ exports.startSettingsScript = async () => {
     document.getElementById("close-benchmark-btn").addEventListener("click", (e) => {
         document.getElementById("currentTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion}`
         document.getElementById("currentTitle").style.visibility = "unset"
-        document.getElementById("basic-options").style.visibility = "unset"
         document.getElementById("notifications").style.visibility = "visible"
         document.getElementById("benchmarkObjects").style.visibility = "hidden"
         document.getElementById("mainObjects").style.visibility = "visible"
@@ -32,23 +30,6 @@ exports.startSettingsScript = async () => {
         document.getElementById("bench-test-2").innerHTML = "Test 2 : En cours..."
         document.getElementById("bench-test-3").innerHTML = "Test 3 : En cours..."
         document.getElementById("bench-test-all").innerHTML = ""
-    })
-
-
-    // Init bouton options avancées / basiques
-    document.getElementById("advanced-options-btn").innerHTML = "Options avancées"
-
-    // Bouton options avancées / basiques
-    document.getElementById("advanced-options-btn").addEventListener("click", (e) => {
-        if (document.getElementById("advanced-options").style.visibility == "visible") {
-            document.getElementById("advanced-options-btn").innerHTML = "Options avancées"
-            document.getElementById("advanced-options").style.visibility = "hidden"
-            document.getElementById("basic-options").style.visibility = "visible"
-        } else {
-            document.getElementById("advanced-options-btn").innerHTML = "Options basiques"
-            document.getElementById("advanced-options").style.visibility = "visible"
-            document.getElementById("basic-options").style.visibility = "hidden"
-        }
     })
 
 

@@ -260,19 +260,15 @@ document.getElementById("discord-btn").addEventListener("click", (e) => {
 })
 
 document.getElementById("settings-btn").addEventListener("click", (e) => {
-    document.getElementById("advanced-options-btn").innerHTML = "Options avancées"
-    if (document.getElementById("settingsObjects").style.visibility == "hidden") {
+    if (document.getElementById("settingsWindow").style.visibility == "hidden") {
         document.getElementById("settingsTitle").innerHTML = `FuncraftHelper ${sharedVars.fhVersion} - Paramètres`
         document.getElementById("mainObjects").style.visibility = "hidden"
         document.getElementById("uiLayout").style.opacity = 0
         document.getElementById("skinsWindow").style.visibility = "hidden"
-        document.getElementById("settingsObjects").style.visibility = "visible"
-        document.getElementById("basic-options").style.visibility = "visible"
+        document.getElementById("settingsWindow").style.visibility = "visible"
         document.getElementById("state").style.visibility = "hidden"
     } else {
-        document.getElementById("basic-options").style.visibility = "unset"
-        document.getElementById("settingsObjects").style.visibility = "hidden"
-        document.getElementById("advanced-options").style.visibility = "hidden"
+        document.getElementById("settingsWindow").style.visibility = "hidden"
         document.getElementById("uiLayout").style.opacity = 1
         document.getElementById("mainObjects").style.visibility = "visible"
         if (!sharedVars.noState) {
@@ -289,12 +285,9 @@ document.getElementById("themes-btn").addEventListener("click", (e) => {
         document.getElementById("mainObjects").style.visibility = "hidden"
         document.getElementById("skinsWindow").style.visibility = "visible"
         document.getElementById("uiLayout").style.opacity = 0
-        document.getElementById("settingsObjects").style.visibility = "hidden"
+        document.getElementById("settingsWindow").style.visibility = "hidden"
         document.getElementById("state").style.visibility = "hidden"
-        document.getElementById("advanced-options").style.visibility = "hidden"
-        document.getElementById("basic-options").style.visibility = "hidden"
     } else {
-        document.getElementById("advanced-options-btn").innerHTML = "Options avancées"
         document.getElementById("skinsWindow").style.visibility = "hidden"
         document.getElementById("mainObjects").style.visibility = "visible"
         document.getElementById("uiLayout").style.opacity = 1
