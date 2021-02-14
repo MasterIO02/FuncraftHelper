@@ -8,49 +8,57 @@
 
 <body>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
-    <div id="firstLaunch" style="visibility: hidden">
-        <b class="text" style="position:fixed; top: 40px; left: 10px"> Bienvenue sur FuncraftHelper !
-        </b>
-        <p class="text" style="position:fixed; top: 80px; left: 10px"> Quel launcher sera utilisé pour jouer sur
-            Funcraft ?</p>
+    <div id="firstLaunch"
+        style="visibility: hidden; position:fixed; left:0px; top:50px; overflow-y: auto; overflow-x: hidden; max-height: 400px; height: 320px; width: 550px; margin-left: 30px;">
+        <b class="text"> Bienvenue sur FuncraftHelper !</b>
+        <p class="text"> Quel launcher sera utilisé pour jouer sur Funcraft ?</p>
 
-        <label class="launcher-selector" for="radioAZLauncherBtn"> <img src="../files/AZicon.png" width="64" height="64"
-                style="position:fixed; top: 110px; left: 150px" draggable="false"> </label>
+        <div name="launcher-select" style="position: relative; width: 550px; height: 110px; display: flex;">
+            <input id="radioAZLauncherBtn" type="radio" name="launcherRadio" style="position: relative; left:90px; top: 30px" checked="checked">
 
-        <label class="launcher-selector" for="radioOffiLauncherBtn"> <img src="../files/MCicon.png" width="64"
-                height="64" style="position:fixed; top: 110px; left: 375px" draggable="false"> </label>
+            <label class="launcher-selector" for="radioAZLauncherBtn" style="position: relative; left:100px; top: 5px"> <img src="../files/AZicon.png" width="64"
+                    height="64" draggable="false"> </label>
 
+            <input id="radioOffiLauncherBtn" type="radio" name="launcherRadio" style="position: relative; left:240px; top: 30px">
 
-        <input id="radioAZLauncherBtn" type="radio" name="launcherRadio" style="position:fixed; top: 137px; left: 120px"
-            checked="checked">
-        <input id="radioOffiLauncherBtn" type="radio" name="launcherRadio"
-            style="position:fixed; top: 137px; left: 345px">
-
-        <p class="text" style="position:fixed; top: 184px; left: 137px">AZ Launcher</p>
-        <p class="text" style="position:fixed; top: 184px; left: 313px;">Launcher Minecraft Officiel
-        </p>
-
-        <p class="text" id="usernameText" style="position:fixed; top: 210px; left: 10px"></p>
-
-        <p class="text" id="launcherSelectedText" style="position:fixed; top: 230px; left: 10px"></p>
-        <i class="text" id="mcPathText" style="position:fixed; top: 253px; left: 10px"></i>
-
-        <input type="text" spellcheck="false" id="mcUsername" style="position: fixed; top: 300px; left: 20px;">
-        <p class="text" style="position:fixed; top:299px; left:210px; user-select: none;"> Votre pseudo in-game (avec
-            les majuscules !) </p>
+            <label class="launcher-selector" for="radioOffiLauncherBtn" style="position: relative; left:250px; top: 5px"> <img src="../files/MCicon.png" width="64"
+                    height="64" draggable="false"> </label>
 
 
-        <b class="text" style="position:fixed; top: 330px; left: 10px; font-size: 11px">Chrome doit être
+            <p class="text" style="position: absolute; left: 100px; top: 80px">AZ Launcher</p>
+            <p class="text" style="position: absolute; left: 280px; top: 80px">Launcher Minecraft Officiel</p>
+        </div>
+
+        <p class="text" id="usernameText"></p>
+
+        <p class="text" id="launcherSelectedText"></p>
+
+        <i class="text" id="mcPathText"></i>
+
+        <div style="height: 10px;"></div>
+        <label name="usernameSelector" style="display: flex;">
+            <input type="text" spellcheck="false" id="mcUsername">
+            <p class="text" style="user-select: none; margin-left: 5px;"> Votre pseudo in-game (avec
+                les majuscules !) </p>    
+        </label>
+        <div style="height: 10px;"></div>
+
+
+        <b class="text" style="font-size: 14px">Chrome doit être
             installé
             avant
             d'utiliser FuncraftHelper (vous pouvez changer son emplacement dans les paramètres).</b>
-        <b class="text" style="position:fixed; top: 342px; left: 10px; font-size: 11px">Si vous utilisez un autre
-            launcher,
-            vous pouvez
-            modifier son emplacement dans les paramètres manuellement.</b>
+            <div style="height: 5px;"></div>
 
-        <button id="end-first-launch" style="position:fixed; top: 360px; left: 265px">Terminé</button>
+            <p class="text" style="font-size: 14px">Vous pouvez utiliser un autre navigateur basé sur Chromium (comme Edge, Vivaldi, Opera par exemple), mais si des problèmes de navigation se produisent aucun support ne sera fourni.</p>
+            <div style="height: 10px;"></div>
+
+        <b class="text" style="font-size: 13px;"> En utilisant FuncraftHelper, vous acceptez d'envoyer des données d'utilisation comprenant la configuration de FuncraftHelper et votre pseudo. </b>
+        <button id="end-first-launch" style="position:fixed; top: 375px; left: 265px">Terminé</button>
+
     </div>
+
+
 </body>
 
 </html>
