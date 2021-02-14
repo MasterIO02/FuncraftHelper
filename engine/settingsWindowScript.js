@@ -189,18 +189,18 @@ exports.startSettingsScript = async () => {
         store.set('chromeLocation', document.getElementById('chromeLocationTextArea').value)
     })
 
-    // Script pour switch useServerScriptSwitch
-    if (store.get('useServerScript') == true) {
-        document.getElementById("useServerScriptSwitch").checked = true
+    // Script pour switch sendAdditionalData
+    if (store.get('sendAdditionalData') == true) {
+        document.getElementById("sendAdditionalDataSwitch").checked = true
     } else {
-        document.getElementById("useServerScriptSwitch").checked = false
+        document.getElementById("sendAdditionalDataSwitch").checked = false
     }
 
-    document.getElementById("useServerScriptSwitch").addEventListener("click", (e) => {
-        if (store.get('useServerScript') == true) {
-            store.set('useServerScript', false)
+    document.getElementById("sendAdditionalDataSwitch").addEventListener("click", (e) => {
+        if (store.get('sendAdditionalData') == true) {
+            store.set('sendAdditionalData', false)
         } else {
-            store.set('useServerScript', true)
+            store.set('sendAdditionalData', true)
         }
     })
 

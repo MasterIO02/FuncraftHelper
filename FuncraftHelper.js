@@ -60,12 +60,6 @@ if (store.get('firstLaunch') == undefined) {
 }
 
 // Init new configs si ancienne version
-if (store.get('theme') == undefined) {
-    store.set('theme', 'default')
-}
-if (store.get('manualEnter') == undefined) {
-    store.set('manualEnter', true)
-}
 if (store.get('modeNumber') == undefined) {
     store.set('modeNumber', 1)
 }
@@ -80,6 +74,9 @@ if (store.get('ownStatsSearchFrequency') == undefined) {
 }
 if (store.get('visibilityBox') == undefined) {
     store.set('visibilityBox', false)
+}
+if (store.get('sendAdditionalData') == undefined) {
+    store.set('sendAdditionalData', true)
 }
 
 fs.access(`${app.getPath('userData')}/fhData/skins`, function (error) {

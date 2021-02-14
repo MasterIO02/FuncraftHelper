@@ -24,8 +24,6 @@ exports.initFirstLaunch = async () => {
 
     document.getElementById("end-first-launch").addEventListener("click", (e) => {
         store.set('firstLaunch', false)
-        store.set('useServerScript', true)
-        document.getElementById("useServerScriptSwitch").checked = true
         document.getElementById("firstLaunch").style.visibility = "hidden"
         document.getElementById("mainObjects").style.visibility = "visible"
         document.getElementById("state").style.visibility = "visible"
