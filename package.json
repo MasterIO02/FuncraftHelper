@@ -9,7 +9,7 @@
   "author": "MasterIO",
   "license": "GPL-3.0",
   "dependencies": {
-    "@cliqz/adblocker-puppeteer": "^1.20.0",
+    "@cliqz/adblocker-puppeteer": "^1.20.3",
     "axios": "^0.21.1",
     "cross-fetch": "^3.0.6",
     "discord-rich-presence": "0.0.8",
@@ -20,12 +20,12 @@
     "node-fetch": "^2.6.1",
     "puppeteer-core": "^3.3.0",
     "read-last-lines": "^1.8.0",
-    "systeminformation": "^4.34.11"
+    "systeminformation": "^5.5.0"
   },
   "description": "Logiciel d'aide sur le serveur Minecraft Funcraft.",
   "devDependencies": {
-    "electron": "^11.2.3",
-    "electron-builder": "^22.9.1"
+    "electron": "^11.3.0",
+    "electron-builder": "^22.10.5"
   },
   "build": {
     "appId": "com.masterio.funcrafthelper",
