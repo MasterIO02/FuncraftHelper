@@ -199,6 +199,12 @@ exports.navigatePlayer = async () => {
         var rushGameTimeXPath = eval(`sharedVars.mode${modeNum}RushGameTimeXPath`)
         var rushKillCountXPath = eval(`sharedVars.mode${modeNum}RushKillCountXPath`)
         var rushDeathCountXPath = eval(`sharedVars.mode${modeNum}RushDeathCountXPath`)
+        var rushretroGamesCountXPath = eval(`sharedVars.mode${modeNum}RushretroGamesCountXPath`)
+        var rushretroVictoryCountXPath = eval(`sharedVars.mode${modeNum}RushretroVictoryCountXPath`)
+        var rushretroPointsCountXPath = eval(`sharedVars.mode${modeNum}RushretroPointsCountXPath`)
+        var rushretroGameTimeXPath = eval(`sharedVars.mode${modeNum}RushretroGameTimeXPath`)
+        var rushretroKillCountXPath = eval(`sharedVars.mode${modeNum}RushretroKillCountXPath`)
+        var rushretroDeathCountXPath = eval(`sharedVars.mode${modeNum}RushretroDeathCountXPath`)
         var skywarsGamesCountXPath = eval(`sharedVars.mode${modeNum}SkywarsGamesCountXPath`)
         var skywarsVictoryCountXPath = eval(`sharedVars.mode${modeNum}SkywarsVictoryCountXPath`)
         var skywarsPointsCountXPath = eval(`sharedVars.mode${modeNum}SkywarsPointsCountXPath`)
@@ -242,7 +248,7 @@ exports.navigatePlayer = async () => {
         await page.goto(`https://www.funcraft.net/fr/joueurs?q=${playerUsername}`)
 
         var element
-        const prefix = ['hikabrain', 'rush', 'skywars', 'octogone', 'blitz', 'shootcraft']
+        const prefix = ['hikabrain', 'rush', 'skywars', 'octogone', 'blitz', 'shootcraft', 'rushretro']
         const suffix = [
             ['GamesCount', 'GamesCountXPath'],
             ['VictoryCount', 'VictoryCountXPath'],
@@ -268,6 +274,9 @@ exports.navigatePlayer = async () => {
         var roundedHikabrainWinrate = hikabrainWinrate.toFixed(2)
         var rushWinrate = (rushVictoryCount / rushGamesCount * 100)
         var roundedRushWinrate = rushWinrate.toFixed(2)
+        var rushretroWinrate = (rushretroVictoryCount / rushretroGamesCount * 100)
+        var roundedRushretroWinrate = rushretroWinrate.toFixed(2)
+
         var skywarsWinrate = (skywarsVictoryCount / skywarsGamesCount * 100)
         var roundedSkywarsWinrate = skywarsWinrate.toFixed(2)
         var octogoneWinrate = (octogoneVictoryCount / octogoneGamesCount * 100)
@@ -276,10 +285,14 @@ exports.navigatePlayer = async () => {
         var roundedBlitzWinrate = blitzWinrate.toFixed(2)
         var shootcraftWinrate = (shootcraftVictoryCount / shootcraftGamesCount * 100)
         var roundedShootcraftWinrate = shootcraftWinrate.toFixed(2)
+
         var hikabrainRatio = hikabrainKillCount / hikabrainDeathCount
         var roundedHikabrainRatio = hikabrainRatio.toFixed(2)
         var rushRatio = rushKillCount / rushDeathCount
         var roundedRushRatio = rushRatio.toFixed(2)
+        var rushretroRatio = rushretroKillCount / rushretroDeathCount
+        var roundedRushretroRatio = rushretroRatio.toFixed(2)
+
         var skywarsRatio = skywarsKillCount / skywarsDeathCount
         var roundedSkywarsRatio = skywarsRatio.toFixed(2)
         var octogoneRatio = octogoneKillCount / octogoneDeathCount
@@ -314,6 +327,14 @@ exports.navigatePlayer = async () => {
             ownstats.set('rushGameTime', rushGameTime)
             ownstats.set('roundedRushWinrate', roundedRushWinrate)
             ownstats.set('roundedRushRatio', roundedRushRatio)
+            ownstats.set('rushretroGamesCount', rushretroGamesCount)
+            ownstats.set('rushretroVictoryCount', rushretroVictoryCount)
+            ownstats.set('rushretroPointsCount', rushretroPointsCount)
+            ownstats.set('rushretroKillCount', rushretroKillCount)
+            ownstats.set('rushretroDeathCount', rushretroDeathCount)
+            ownstats.set('rushretroGameTime', rushretroGameTime)
+            ownstats.set('roundedRushretroWinrate', roundedRushretroWinrate)
+            ownstats.set('roundedRushretroRatio', roundedRushretroRatio)
             ownstats.set('skywarsGamesCount', skywarsGamesCount)
             ownstats.set('skywarsVictoryCount', skywarsVictoryCount)
             ownstats.set('skywarsPointsCount', skywarsPointsCount)

@@ -96,13 +96,13 @@ async function checkLine(line) {
   console.log(line)
   switch (true) {
     case line.includes("Vous avez quitt"):
-      /*document.getElementById("state").style.visibility = "visible"
+      document.getElementById("state").style.visibility = "visible"
       document.getElementById("twoPlayersLayout").style.visibility = "hidden"
       document.getElementById("fourPlayersLayout").style.visibility = "hidden"
       document.getElementById("eightPlayersLayout").style.visibility = "hidden"
       document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
       document.getElementById("gameName").innerHTML = ""
-      sharedVars.noState = false*/
+      sharedVars.noState = false
       sharedVars.playerCount = 0
       break;
 
@@ -132,7 +132,7 @@ async function checkLine(line) {
       }
       break;
 
-    case line.includes("rejoignez rushFASTMDTPAC10#2x1") || line.includes("file Rush FAST-MDT ᛫ 1v1"):
+    case line.includes("rejoignez rushFASTMDTPAC10#2x1") || line.includes("file Rush MDT (FAST) ᛫ 1v1"):
       sharedVars.gameChosen = "Rush"
       sharedVars.gameType = "single"
       sharedVars.gameNumber = 2
@@ -175,7 +175,7 @@ async function checkLine(line) {
       document.getElementById("gameName").innerHTML = "Jeu : Hikabrain (2v2)"
       break;
 
-    case line.includes("rejoignez rushFASTMDT4#2x2") || line.includes("rejoignez rushMDT2x2") || line.includes("file Rush FAST-MDT ᛫ 2v2") || line.includes("file Rush MDT ᛫ 2v2"):
+    case line.includes("rejoignez rushFASTMDT4#2x2") || line.includes("rejoignez rushMDT2x2") || line.includes("file Rush MDT (FAST) ᛫ 2v2") || line.includes("file Rush MDT ᛫ 2v2"):
       sharedVars.gameChosen = "Rush"
       sharedVars.gameType = "multiple"
       sharedVars.gameNumber = 4
@@ -209,7 +209,7 @@ async function checkLine(line) {
       document.getElementById("gameName").innerHTML = "Jeu : Hikabrain (4v4)"
       break;
 
-    case line.includes("rejoignez rushFASTMDT2x4") || line.includes("rejoignez rushMDT2x4") || line.includes("file Rush FAST-MDT ᛫ 4v4") || line.includes("file Rush MDT ᛫ 4v4"):
+    case line.includes("rejoignez rushFASTMDT2x4") || line.includes("rejoignez rushMDT2x4") || line.includes("file Rush MDT (FAST) ᛫ 4v4") || line.includes("file Rush MDT ᛫ 4v4"):
       sharedVars.gameChosen = "Rush"
       sharedVars.gameType = "multiple"
       sharedVars.gameNumber = 8
@@ -224,6 +224,23 @@ async function checkLine(line) {
       document.getElementById("uiLayout").style.opacity = 1
       document.getElementById("state").style.visibility = "hidden"
       document.getElementById("gameName").innerHTML = "Jeu : Rush (4v4)"
+      break;
+
+    case line.includes("rejoignez rushretro4x2" || line.includes("file Rush RETRO ᛫ 4eq x 2j")):
+      sharedVars.gameChosen = "Rushretro"
+      sharedVars.gameType = "multiple"
+      sharedVars.gameNumber = 8
+      sharedVars.noState = true
+      sharedVars.playerPosition = []
+      resetUi()
+      store.set('rpStatus', 'Rush Retro')
+      document.getElementById("twoPlayersLayout").style.visibility = "hidden"
+      document.getElementById("fourPlayersLayout").style.visibility = "hidden"
+      document.getElementById("sixteenPlayersLayout").style.visibility = "hidden"
+      document.getElementById("eightPlayersLayout").style.visibility = "visible"
+      document.getElementById("uiLayout").style.opacity = 1
+      document.getElementById("state").style.visibility = "hidden"
+      document.getElementById("gameName").innerHTML = "Jeu : Rush Retro"
       break;
 
     case line.includes("rejoignez skywars12") || line.includes("file SkyWars Solo"):
