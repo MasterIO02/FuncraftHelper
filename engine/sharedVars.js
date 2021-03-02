@@ -93,7 +93,7 @@ exports.mode2ShootcraftGameTimeXPath = '//*[@id="player-stats"]/div[4]/div[6]/di
 
 // Ne touchez pas à ces variables, sans elles FuncraftHelper ne fonctionnera pas correctement.
 
-exports.fhVersion = '2.2.0'
+exports.fhVersion = '2.2.1'
 exports.discordClientID = '776154594770157568'
 
 exports.playerUsername = ''
