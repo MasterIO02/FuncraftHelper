@@ -4,7 +4,6 @@ const sharedVars = require('./sharedVars')
 const logFileLocation = (store.get('logFileLocation'))
 const navigatePlayer = require('./navigatePlayer').navigatePlayer
 const reloadOwnStats = require('./navigatePlayer').reloadOwnStats
-const navigateMorgothAPI = require('./navigateMorgothAPI').navigateMorgothAPI
 const fs = require("fs")
 const md5 = require('md5')
 var nodeConsole = require('console')
@@ -387,11 +386,8 @@ async function checkLine(line) {
           })
           console.log(sharedVars.playerPosition)
 
-          if (store.get('useMorgothAPI') && sharedVars.gameNumber == 2) {
-            navigateMorgothAPI()
-          } else {
-            navigatePlayer()
-          }
+          navigatePlayer()
+
         } else if (sharedVars.gameNumber == 2) {
           ownPlayerConnected()
         } else if (sharedVars.playerPosition.indexOf(store.get('username')) == -1) {

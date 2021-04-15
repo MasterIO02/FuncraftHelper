@@ -41,7 +41,6 @@ app.on('ready', function () {
 // Init config si premier lancement
 if (store.get('firstLaunch') == undefined) {
     store.set('systemType', os.platform())
-    store.set('useMorgothAPI', false)
     store.set('headless', true)
     store.set('username', "*")
     store.set('manualEnter', true)

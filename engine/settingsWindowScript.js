@@ -37,28 +37,6 @@ exports.startSettingsScript = async () => {
     // Initialisation du system type
     document.getElementById("systemType").innerHTML = store.get('systemType')
 
-    // Script pour switch MorgothAPI
-    if (store.get('useMorgothAPI') == true) {
-        document.getElementById("useMorgothAPISwitch").checked = true
-        document.getElementById("APIKeyText").hidden = false
-        document.getElementById("MorgothAPIKeyTextArea").hidden = false
-    } else {
-        document.getElementById("useMorgothAPISwitch").checked = false
-    }
-
-    document.getElementById("useMorgothAPISwitch").addEventListener("click", (e) => {
-        if (store.get('useMorgothAPI') == true) {
-            store.set('useMorgothAPI', false)
-            document.getElementById("APIKeyText").hidden = true
-            document.getElementById("MorgothAPIKeyTextArea").hidden = true
-
-        } else {
-            store.set('useMorgothAPI', true)
-            document.getElementById("APIKeyText").hidden = false
-            document.getElementById("MorgothAPIKeyTextArea").hidden = false
-        }
-    })
-
     // Script pour switch headless
     if (store.get('headless') == true) {
         document.getElementById("headlessSwitch").checked = true
@@ -169,12 +147,6 @@ exports.startSettingsScript = async () => {
     document.getElementById("usernameTextArea").value = store.get('username')
     document.getElementById("usernameTextArea").addEventListener("input", (e) => {
         store.set('username', document.getElementById('usernameTextArea').value)
-    })
-
-    // Script pour textarea morgothAPIkey
-    document.getElementById("MorgothAPIKeyTextArea").value = store.get('MorgothAPIKey')
-    document.getElementById("MorgothAPIKeyTextArea").addEventListener("input", (e) => {
-        store.set('MorgothAPIKey', document.getElementById('MorgothAPIKeyTextArea').value)
     })
 
     // Script pour emplacement latest.log

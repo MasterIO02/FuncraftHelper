@@ -149,13 +149,8 @@ document.getElementById("enterUsernameWindow").addEventListener("keypress", (e) 
             username: sharedVars.playerUsername,
             position: sharedVars.playerNumber
         })
-        if (store.get('useMorgothAPI') == false) {
-            const navigatePlayer = require('../engine/navigatePlayer').navigatePlayer
-            navigatePlayer()
-        } else {
-            const navigateMorgothAPI = require('../engine/navigateMorgothAPI').navigateMorgothAPI
-            navigateMorgothAPI()
-        }
+        const navigatePlayer = require('../engine/navigatePlayer').navigatePlayer
+        navigatePlayer()
         document.getElementById("manualUsernameTextarea").value = ""
         document.getElementById("enterUsernameWindow").style.visibility = "hidden"
         document.getElementById("2player2Username").innerHTML = sharedVars.playerUsername
