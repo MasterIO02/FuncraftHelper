@@ -3,6 +3,8 @@
 [![HitCount](http://hits.dwyl.com/MasterIO02/FuncraftHelper.svg)](http://hits.dwyl.com/MasterIO02/FuncraftHelper)
 [![GitHub All Releases](https://img.shields.io/github/downloads/MasterIO02/FuncraftHelper/total.svg)](https://github.com/MasterIO02/FuncraftHelper/releases/)
 
+> :warning: **Archivage**: Ce repository est maintenant archivé, vu que Funcraft ferme ses portes le 26 août 2023. Adieu Funcraft, a jamais dans nos cœurs.
+
 FuncraftHelper est un projet semi abandonné, je ne ferais plus de mises à jour de fonctionnalités mais en ferais pour que le logiciel soit toujours utilisable si la façon de fonctionner du chat de Funcraft change ou si leur site change.
 Si un jour FuncraftHelper venait à être utilisé par plus de personnes je pourrais réécrire le logiciel car là le code est vraiment pas ouf et j'en suis pas super fier.
 
